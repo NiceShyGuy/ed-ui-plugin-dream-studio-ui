@@ -4,7 +4,7 @@
 
 ## Description
 
-Easy Dream Studio (EDS) is a transformative plugin for the Easy Diffusion (ED) application that aims to replicate the UI of Stability.ai's Dream Studio. As a front-end for the image-generating software Stable Diffusion, Dream Studio's UI has inspired the design of EDS. Leveraging the similar UI structure of ED, the EDS plugin applies a series of changes to create a similar appearance to Dream Studio, offering users a familiar and intuitive experience while using Easy Diffusion.
+Easy Dream Studio (EDS) is a transformative plugin for the Easy Diffusion (ED) application that aims to replicate the UI of Stability.ai's Dream Studio. As a front-end for the image-generating software Stable Diffusion, Dream Studio's UI has inspired the design of EDS. Leveraging the similar UI structure of ED, the EDS plugin applies a series of changes to create a similar appearance and functionality of Dream Studio, offering users a familiar and intuitive experience while using Easy Diffusion.
 
 ## Installation
 

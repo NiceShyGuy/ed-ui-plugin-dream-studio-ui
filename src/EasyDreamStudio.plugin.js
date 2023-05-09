@@ -302,6 +302,10 @@
             justify-content: center;
         }
 
+        #editor-settings-entries table td {
+            position: relative !important;
+        }
+
         #editor-negative-prompt .collapsible-content {
             padding: 0;
         }
