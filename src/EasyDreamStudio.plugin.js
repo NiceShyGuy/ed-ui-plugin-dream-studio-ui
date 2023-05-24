@@ -1,6 +1,6 @@
 /**
  * Easy Dream Studio
- * Version 0.2
+ * Version 0.2.1
  * Author: @3V1LXD
  * License: MIT
  * Description:  
@@ -232,9 +232,8 @@ function waitFor(selectors) {
             position: absolute;
             top: 0;
             left: 0;
-            width: 128px;
+            width: 64px;
             height: 100%;
-            transform: translateX(-50%);
         }
 
         .toggle-btn {
@@ -248,6 +247,7 @@ function waitFor(selectors) {
             font-size: 12px;
             cursor: pointer;
             padding: 6px 8px;
+            z-index: 999
         }
 
         .toggle-btn:hover {
