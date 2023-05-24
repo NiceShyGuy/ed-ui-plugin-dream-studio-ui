@@ -234,6 +234,7 @@ function waitFor(selectors) {
             left: 0;
             width: 64px;
             height: 100%;
+            z-index: 998;
         }
 
         .toggle-btn {
