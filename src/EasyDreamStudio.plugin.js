@@ -783,7 +783,7 @@ function waitFor(selectors) {
     logo.appendChild(logoWrapper);
 
     const dreamVersion = document.createElement('small');
-    dreamVersion.textContent = '/ v0.1.0';
+    dreamVersion.textContent = '/ v0.2.1';
     dreamVersion.classList.add('dream-gradient');
     const vWrapper = document.createElement('span');
     vWrapper.appendChild(easyVersion);
