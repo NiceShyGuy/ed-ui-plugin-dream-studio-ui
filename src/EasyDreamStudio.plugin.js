@@ -218,6 +218,7 @@ function waitFor(selectors) {
             width: 1px;
             cursor: col-resize;
             background-color: var(--background-color3);
+            z-index: 997;
         }
 
         .preview {
