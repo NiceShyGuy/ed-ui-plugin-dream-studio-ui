@@ -159,8 +159,6 @@ function waitFor(selectors) {
         }
 
         #donate-wrapper button img {
-            width: 12px;
-            height: 12px;
             margin-right: 8px;
         }
 
@@ -927,23 +925,22 @@ function waitFor(selectors) {
     tabNewsI.textContent = '📰';
 
     const topNav = document.getElementById('top-nav');
-    // https://www.patreon.com/EasyDiffusion
 
     const patreon = document.createElement('button');
-    patreon.innerHTML = `<img src="https://c5.patreon.com/external/logo/become_a_patron_button.png">Become a patron`;
+    const patreonLogo = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="12px" height="12px" style="fill: #f1465a; margin-right: 8px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 3H3v18h3V3zm8.5 13a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z"></path></svg>';
+    patreon.innerHTML = `${patreonLogo} Become a patron`;
     patreon.addEventListener('click', () => {
         open('https://www.patreon.com/EasyDiffusion', '_blank');
     });
 
-
     const coffeecmdr2 = document.createElement('button');
-    coffeecmdr2.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png">Buy cmdr2 a coffee`;
+    coffeecmdr2.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png" width="19px" height="12px">Buy cmdr2 a coffee`;
     coffeecmdr2.addEventListener('click', () => {
         open('https://ko-fi.com/easydiffusion', '_blank');
     });
 
     const coffee3v1lxd = document.createElement('button');
-    coffee3v1lxd.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png">Buy 3V1LXD a coffee`;
+    coffee3v1lxd.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png" width="19px" height="12px">Buy 3V1LXD a coffee`;
     coffee3v1lxd.addEventListener('click', () => {
         open('https://ko-fi.com/3v1lxd', '_blank');
     });
