@@ -1,6 +1,6 @@
 /**
  * Easy Dream Studio
- * Version 0.2.1
+ * Version 0.3
  * Author: @3V1LXD
  * License: MIT
  * Description:  
@@ -78,7 +78,7 @@ function waitFor(selectors) {
         #top-nav {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         #logo {
@@ -98,6 +98,9 @@ function waitFor(selectors) {
         }
 
         #logo h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0;
         }
 
@@ -113,19 +116,36 @@ function waitFor(selectors) {
             justify-content: center;
         }
 
-        #version-wrapper {
+        #version-wrapper, #by-wrapper {
             cursor: pointer;
         }
         
-        #version-wrapper small, #by-wrapper small {
-            padding-right: 8px;
-        }
-        
         #donate-wrapper {
-            display: flex;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
             align-items: center;
             justify-content: center;
             margin: 10px;
+        }
+
+        #donate-wrapper > *:nth-child(1) {
+            grid-row: 1;
+            grid-column: 1 / span 3;
+        }
+
+        #donate-wrapper > *:nth-child(2) {
+            grid-row: 2;
+            grid-column: 1;
+        }
+
+        #donate-wrapper > *:nth-child(3) {
+            grid-row: 2;
+            grid-column: 2;
+        }
+
+        #donate-wrapper > *:nth-child(4) {
+            grid-row: 2;
+            grid-column: 3;
         }
 
         #donate-wrapper button {
@@ -133,7 +153,7 @@ function waitFor(selectors) {
             align-items: center;
             justify-content: center;
             padding: 5px 10px;
-            margin: 0 10px 0 10px;
+            margin: 10px;
             font-size: 12px;
             white-space: nowrap;
         }
@@ -192,21 +212,34 @@ function waitFor(selectors) {
             flex: none !important;
             opacity: 1;
             visibility: visible;
-            width: 420px;
+            width: 520px;
         }
 
         #prompt {
-            grid-column: 1 / span 3;
+            grid-column: 1 / span 4;
             grid-row: 2;
-            width: 100%;
+            width: 100% !important;
         }
 
-        #makeImage, #editor-settings, #editor-modifiers {
+        label[for="prompt"] {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        #prompt-toolbar {
+            grid-column: 2 / span 2;
+            grid-row: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #makeImage, #editor-settings {
             margin: 10px 0;
         }
 
-        .editor,
-        .preview {
+        .editor {
             padding: 10px;
             box-sizing: border-box;
             overflow-y: scroll;
@@ -216,13 +249,10 @@ function waitFor(selectors) {
         .splitter {
             position: relative;
             width: 1px;
+            margin-right: 15px;
             cursor: col-resize;
             background-color: var(--background-color3);
             z-index: 997;
-        }
-
-        .preview {
-            width: 100%;
         }
 
         .splitter:hover {
@@ -233,7 +263,7 @@ function waitFor(selectors) {
             position: absolute;
             top: 0;
             left: 0;
-            width: 64px;
+            width: 48px;
             height: 100%;
             z-index: 998;
         }
@@ -241,7 +271,7 @@ function waitFor(selectors) {
         .toggle-btn {
             display: none;
             position: absolute;
-            left: 6px;
+            left: 3px;
             margin: 20px;
             background-color: var(--background-color3);
             border: none;
@@ -265,23 +295,26 @@ function waitFor(selectors) {
             box-shadow: 0 0 10px 5px var(--accent-color);
         }
 
-        #editor-modifiers-entries-toolbar button {
+        #editor-settings-entries > div > b, #editor-settings-entries > div > button {
             display: none;
         }
 
-        #editor-settings-entries > div > button {
-            display: none;
-        }
-
-        #initial-text, #preview-content {
+        #initial-text {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             padding: 10px;
         }
 
-        #preview-tools {
-            flex-basis: 100%;
+        #preview, #tab-content-settings, #tab-content-about, #tab-content-merge, #tab-content-news {
+            overflow-y: scroll;
+        }
+
+        #preview-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
         }
 
         #clear-all-previews {
@@ -304,40 +337,24 @@ function waitFor(selectors) {
             margin-left: 8px;
         }
 
-        .header-content {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .header-content > span, .header-content > i {
-            margin-right: 8px;
-        }
-
-        .header-content > .taskStatusLabel {
-            flex-grow: 1;
-            margin-right: 16px;
-        }
-
-        .header-content::after {
-            content: "";
-            flex-grow: 1;
-        }
-
-        .header-content > .secondaryButton, .header-content > .tertiaryButton {
-            margin-right: 8px;
-        }
-
         #tab-content-main {
             padding: 0;
         }
 
-        .editor, .preview {
+        #editor-elements-btn {
+            padding: 5px 0px 5px 0px;
+            width: 100%;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            margin: 5px 0 5px 0 ;
+        }
+
+        .editor {
             height: 100% !important;
         }
 
-        .preview-prompt, .taskConfig, .outputMsg, .progress-bar {
+        .preview-prompt, .taskConfig, .outputMsg {
             display: block;
             width: 100%;
             box-sizing: border-box;
@@ -345,11 +362,20 @@ function waitFor(selectors) {
         }
 
         #promptsFromFileBtn {
-            padding: 5px 10px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            grid-row: 1;
+            margin-left: 4px;
+            width: fit-content;
+        }
+
+        #editor-modifiers {
+            margin: 0;
+        }
+
+        #editor-modifiers.active {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #editor-settings-entries table td {
@@ -388,7 +414,7 @@ function waitFor(selectors) {
             flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
-            width: 100vw !important;
+            width: 100dvw !important;
             height: 100% !important;
             max-width: none !important;
             max-height: none !important;
@@ -489,7 +515,7 @@ function waitFor(selectors) {
             min-width: 240px;
             top: 20px;
         }
-
+        
         .editor-controls-center {
             display: block;
             flex: 0;
@@ -514,24 +540,96 @@ function waitFor(selectors) {
             padding-bottom: 20px;
         }
 
-        #makeImage, #editor-settings, #editor-modifiers, #editor-inputs-init-image {
+        #makeImage {
             max-width: none;
         }
 
-        #preview .collapsible-content {
-            padding: 0;
+        #modifiers-header-right {
+            justify-content: right;
         }
 
-        #preview {
-            overflow-x: hidden;
+        #embeddings-dialog-header-right {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+
+        #embeddings-dialog-close-button {
+            margin-left: 8px;
+        }
+
+        #preview-tools {
+            width: 100%;
+        }
+
+        #supportBanner {
+            height: 0;
+            border: none;
+            margin: 0;
+            color: none;
+            opacity: 0;
+        }
+
+        .header-content {
+            display: grid;
+            grid-gap: 6px;
+            grid-template-rows: repeat(4, min-content);
+        }
+
+        .drag-handle {
+            grid-row: 1;
+            grid-column: 1 / span 2;
+            min-height: 0;
+        }
+
+        .taskStatusLabel {
+            grid-row: 2;
+            grid-column: 1 / span 4;
+            margin: 0;
+        }
+
+        .useSettings {
+            grid-row: 1;
+            grid-column: 3;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .stopTask {
+            grid-row: 1;
+            grid-column: 4;
+            white-space: nowrap;
+        }
+
+        .preview-prompt {
+            grid-row: 3;
+            grid-column: 1 / span 4;
+            margin: 0;
+        }
+
+        .taskConfig {
+            grid-row: 4;
+            grid-column: 1 / span 4;
+            margin: 0;
+        }
+
+        .outputMsg {
+            grid-row: 5;
+            grid-column: 1 / span 4;
+            margin: 0;
+        }
+
+        .progress-bar {
+            grid-row: 6;
+            grid-column: 1 / span 4;
+        }
+
+        .img-preview {
+            text-align: center;
         }
 
         .imgItem {
             margin: 10px;
-        }
-
-        .progress-bar {
-            margin-bottom: 3px;
         }
 
         #footer-popup::backdrop {
@@ -563,7 +661,7 @@ function waitFor(selectors) {
                 bottom: 0;
                 left: 0;
                 padding: 0;
-                width: 100vw !important;
+                width: 100dvw !important;
                 height: min-content !important;
                 z-index: 100;
                 display: flex;
@@ -573,32 +671,21 @@ function waitFor(selectors) {
                 overflow-x: hidden;
             }
 
+            #editor-elements-btn {
+                margin: 0 0 15px 0;
+            }
+
+            #editor-modifiers.active {
+                width: 100%;
+            }
+
             #editor-modifiers-entries {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
                 padding-left: 0;
                 margin: 0;
                 background-color: var(--background-color2);
                 border-radius: 8px 8px 0 0;
                 overflow-y: scroll;
                 z-index: 100;
-            }
-
-            #editor-modifiers-entries-toolbar {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                padding: 0 10px;
-            }
-            
-            #editor-modifiers-entries-toolbar button {
-                display: block;
-                margin-right: 8px;
             }
 
             .modifier-category {
@@ -614,13 +701,12 @@ function waitFor(selectors) {
                 text-align: left;
                 width: 100%;
             }
+        
+            #editor-settings {
+                margin: 10px 10px 0 10px;
+            }
 
             #editor-settings-entries {
-                position: absolute;
-                top: 0;
-                left: 0;
-                padding: 0;
-                margin: 0;
                 height: 100%;
                 background-color: var(--background-color2);
                 border-radius: 8px 8px 0 0;
@@ -652,6 +738,10 @@ function waitFor(selectors) {
 
             #editor-inputs-prompt{
                 padding: 0 10px;
+            }
+
+            #editor-inputs-init-image {
+                margin: 0 10px 0 10px;
             }
 
             .splitter {
@@ -761,12 +851,20 @@ function waitFor(selectors) {
 
     const logo = document.getElementById('logo');
     const easyText = document.createElement('span');
-    easyText.textContent = 'Easy ';
+    easyText.textContent = 'Easy';
     easyText.classList.add('easy-color');
+
+    
+    const separator = document.createElement('span');
+    separator.textContent = '/';
+    separator.style = 'color: purple; font-size: 80px; font-weight: normal;';
+    const separator2 = separator.cloneNode(true);
+    separator2.style = 'color: purple; font-size: 48px; font-weight: normal;';
+    
 
     const dreamText = document.createElement('span');
     dreamText.setAttribute('id', 'dream-gradient');
-    dreamText.textContent = '/ Dream';
+    dreamText.textContent = 'Dream';
     dreamText.classList.add('dream-gradient');
 
     logo.innerHTML = logo.innerHTML.replace('Diffusion', dreamText.outerHTML);
@@ -778,6 +876,7 @@ function waitFor(selectors) {
     const logoImgH1 = document.createElement('h1');
     logoImgH1.appendChild(logoImg);
     logoImgH1.appendChild(easyText);
+    logoImgH1.appendChild(separator);
     logoImgH1.appendChild(dreamText);
     logoWrapper.appendChild(logoImgH1);
     logoWrapper.id = 'logo-wrapper';
@@ -785,26 +884,16 @@ function waitFor(selectors) {
     logo.appendChild(logoWrapper);
 
     const dreamVersion = document.createElement('small');
-    dreamVersion.textContent = '/ v0.2.1';
+    dreamVersion.textContent = 'v0.3';
+    dreamVersion.style = 'margin-left: 40px;';
     dreamVersion.classList.add('dream-gradient');
     const vWrapper = document.createElement('span');
     vWrapper.appendChild(easyVersion);
     vWrapper.appendChild(dreamVersion);
     vWrapper.id = 'version-wrapper';
-
-    const byEasy = document.createElement('small');
-    byEasy.textContent = 'by cmdr2';
-    byEasy.classList.add('easy-color');
-    const byDream = document.createElement('small');
-    byDream.textContent = '/ 3V1LXD';
-    byDream.classList.add('dream-gradient');
-    const byWrapper = document.createElement('span');
-    byWrapper.appendChild(byEasy);
-    byWrapper.appendChild(byDream);
-    byWrapper.id = 'by-wrapper';
+    vWrapper.style = 'position: relative; top: -30px; left: -23px;';
 
     logoWrapper.insertAdjacentElement('afterend', vWrapper);
-    vWrapper.insertAdjacentElement('afterend', byWrapper);
     easyVersion.addEventListener('click', () => {
         open('https://github.com/cmdr2/stable-diffusion-ui', '_blank');
     });
@@ -837,45 +926,46 @@ function waitFor(selectors) {
     tabNewsI.className = 'icon';
     tabNewsI.textContent = '📰';
 
-    const coffeeButton = document.getElementById('coffeeButton');
-    const coffieLink = coffeeButton.parentNode;
     const topNav = document.getElementById('top-nav');
-    const coffeeButtonNew = document.createElement('button');
-    coffeeButtonNew.id = 'coffeeButton';
-    coffeeButtonNew.type = 'submit';
-    const coffeeButtonImg = document.createElement('img');
-    coffeeButtonImg.src = 'https://storage.ko-fi.com/cdn/cup-border.png';
-    const coffeeButtonSpan = document.createElement('span');
-    coffeeButtonSpan.textContent = 'Buy me a coffee';
-    coffeeButtonNew.appendChild(coffeeButtonImg);
-    coffeeButtonNew.appendChild(coffeeButtonSpan);
-    coffieLink.appendChild(coffeeButtonNew);
-    coffeeButton.parentNode.removeChild(coffeeButton);
-    coffeeButtonNew.addEventListener('click', () => {
-        open('https://ko-fi.com/cmdr2_stablediffusion_ui', '_blank');
+    // https://www.patreon.com/EasyDiffusion
+
+    const patreon = document.createElement('button');
+    patreon.innerHTML = `<img src="https://c5.patreon.com/external/logo/become_a_patron_button.png">Become a patron`;
+    patreon.addEventListener('click', () => {
+        open('https://www.patreon.com/EasyDiffusion', '_blank');
     });
 
-    const paypalButton = document.createElement('button');
-    paypalButton.innerHTML = `<img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg">Donate with PayPal`;
+
+    const coffeecmdr2 = document.createElement('button');
+    coffeecmdr2.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png">Buy cmdr2 a coffee`;
+    coffeecmdr2.addEventListener('click', () => {
+        open('https://ko-fi.com/easydiffusion', '_blank');
+    });
+
+    const coffee3v1lxd = document.createElement('button');
+    coffee3v1lxd.innerHTML = `<img src="https://storage.ko-fi.com/cdn/cup-border.png">Buy 3V1LXD a coffee`;
+    coffee3v1lxd.addEventListener('click', () => {
+        open('https://ko-fi.com/3v1lxd', '_blank');
+    });
+
     const donateWrapper = document.createElement('span');
     donateWrapper.id = 'donate-wrapper';
-    donateWrapper.style = 'color: purple;';
-    donateWrapper.appendChild(coffeeButtonNew);
-    donateWrapper.appendChild(document.createTextNode(' / '));
-    donateWrapper.appendChild(paypalButton);
+    donateWrapper.appendChild(patreon);
+    donateWrapper.appendChild(coffeecmdr2);
+    donateWrapper.appendChild(separator2);
+    donateWrapper.appendChild(coffee3v1lxd);
     topNav.appendChild(donateWrapper);
-    paypalButton.addEventListener('click', () => {
-        open('https://www.paypal.com/paypalme/ScottDIT', '_blank');
-    });
+
+    // https://www.patreon.com/EasyDiffusion
 
     const preview = document.getElementById('preview');
-    const previewContent = document.getElementById('preview-content');
-    previewContent.className = 'grid';
     const previewTools = document.getElementById('preview-tools');
     const showDownloadPopupBtn = document.getElementById('show-download-popup');
     const dreamBtn = document.getElementById('makeImage');
-    const makeLbl = "✨ Dream"
-    dreamBtn.innerHTML = makeLbl;
+    const dreamBtnI = document.createElement('i');
+    dreamBtnI.className = 'icon';
+    dreamBtnI.textContent = '✨';
+
 
     const lineSeparators = document.getElementsByClassName('line-separator');
     while (lineSeparators.length > 0) {
@@ -883,7 +973,6 @@ function waitFor(selectors) {
     }
 
     editor.classList.add('editor');
-    preview.classList.add('preview');
 
     const splitter = document.createElement('div');
     splitter.className = 'splitter';
@@ -897,43 +986,6 @@ function waitFor(selectors) {
     toggleBtn.className = 'toggle-btn';
     toggleBtn.textContent = '◀️';
     splitter.appendChild(toggleBtn);
-
-    let isEditorOpen = true;
-    const snapThreshold = 412;
-    const toggleEditor = (newEditorWidth) => {
-        if (typeof newEditorWidth === 'undefined') {
-            newEditorWidth = isEditorOpen ? 0 : snapThreshold;
-        }
-
-        const containerRect = editor.parentElement.getBoundingClientRect();
-        const newPreviewWidth = containerRect.width - newEditorWidth - splitter.offsetWidth;
-
-        editor.style.width = `${newEditorWidth}px`;
-        preview.style.width = `${newPreviewWidth}px`;
-
-        if (newEditorWidth === 0) {
-            editor.style.display = 'none';
-            toggleBtn.textContent = '▶️';
-            isEditorOpen = false;
-            previewTools.appendChild(dreamBtn);
-
-        } else {
-            editor.style.display = 'block';
-            toggleBtn.textContent = '◀️';
-            isEditorOpen = true;
-            editor.appendChild(dreamBtn);
-        }
-        updateLayout();
-    };
-
-    toggleBtn.addEventListener('click', () => {
-        if (isEditorOpen) {
-            toggleEditor(0);
-        } else {
-            toggleEditor(snapThreshold);
-        }
-        updateLayout();
-    });
 
     splitter.addEventListener('mousedown', (e) => {
         if (e.target === toggleBtn) return;
@@ -987,16 +1039,6 @@ function waitFor(selectors) {
     collapsible.forEach((el) => {
         el.classList.remove('active');
     });
-    const editorModsToolbar = editorMods.querySelector('#editor-modifiers-entries-toolbar');
-    const editorModsCloseBtn = document.createElement('button');
-    editorModsCloseBtn.className = 'btn btn-default';
-    editorModsCloseBtn.style.padding = '5px 10px';
-    editorModsCloseBtn.textContent = 'X';
-    editorModsCloseBtn.addEventListener('click', () => {
-        editorModsTitle.classList.remove('active');
-        editorMods.querySelector('#editor-modifiers-entries').style.display = 'none';
-    });
-    editorModsToolbar.appendChild(editorModsCloseBtn);
 
     const editorStgsCloseBtn = document.createElement('button');
     editorStgsCloseBtn.className = 'btn btn-default';
@@ -1014,6 +1056,7 @@ function waitFor(selectors) {
     const promptLabel = editorInputsPrompt.querySelector('label');
     const smallTag = editorInputsPrompt.querySelector('small');
     const fileButton = editorInputsPrompt.querySelector('#promptsFromFileBtn');
+    const promptToolbar = editorInputsPrompt.querySelector('#prompt-toolbar');
     const promptTextarea = editorInputsPrompt.querySelector('#prompt');
     promptLabel.style = 'cursor: pointer;';
     promptLabel.addEventListener('click', () => {
@@ -1030,32 +1073,41 @@ function waitFor(selectors) {
     promptWrapper.style = `
             display: grid;
             grid-template-rows: 1fr auto;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             justify-items: space-between;
             align-items: center;
             background: var(--background-color4);
             border: 1px solid var(--background-color3);
             border-radius: 7px;
             padding: 7px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
         `;
     promptLabel.innerHTML = '<i class="icon">📝</i> <b>Prompt</b>';
     const fileButtonI = document.createElement('i');
-    fileButtonI.className = 'icon';
-    fileButtonI.textContent = '⬆️';
-    fileButton.textContent = 'Select';
+    fileButtonI.className = 'icon smallButton';
+    fileButtonI.textContent = '📄';
+    fileButton.textContent = 'File';
     fileButton.insertBefore(fileButtonI, fileButton.firstChild);
     promptWrapper.appendChild(promptLabel);
     smallTag.innerText = '';
     promptWrapper.appendChild(smallTag);
+    promptWrapper.appendChild(promptToolbar);
     promptWrapper.appendChild(fileButton);
     promptWrapper.appendChild(promptTextarea);
     const promptFromFile = editorInputsPrompt.querySelector('#prompt_from_file');
     promptFromFile.insertAdjacentElement('beforebegin', promptWrapper);
+    const imageModBtn = editorInputsPrompt.querySelector('#image-modifier-dropdown');
+    imageModBtn.textContent = '🌈 Style';
+    const embeddingBtn = editorInputsPrompt.querySelector('#embeddings-button');
+    embeddingBtn.textContent = '🪡 Embeds';
+    const emeddingDialog = document.getElementById('embeddings-dialog');
+    const emeddingDialogH4 = emeddingDialog.querySelector('h4');
+    emeddingDialogH4.textContent = '🪡 Embeddings';
 
     const negativeLabel = editorInputs.querySelector('label[for="negative_prompt"]');
-    const negativePrompt = negativeLabel.nextElementSibling;
+    const negativeEmbeddingsBtn = editorInputs.querySelector('#negative-embeddings-button');
+    const negativePrompt = negativeEmbeddingsBtn.nextElementSibling;
     const negativeWrapper = document.createElement('div');
     negativeWrapper.id = 'editor-negative-prompt';
     negativeWrapper.style = `
@@ -1063,10 +1115,10 @@ function waitFor(selectors) {
             border: 1px solid var(--background-color3);
             border-radius: 7px;
             padding: 7px;
-            margin-bottom: 15px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
         `;
     negativeWrapper.appendChild(negativeLabel);
+    negativeWrapper.appendChild(negativeEmbeddingsBtn);
     negativeWrapper.appendChild(negativePrompt);
     promptWrapper.insertAdjacentElement('afterend', negativeWrapper);
 
@@ -1074,8 +1126,10 @@ function waitFor(selectors) {
     editorInputsInitImage.classList.add('panel-box');
     const editorInputsInitImageLabel = editorInputsInitImage.querySelector('label');
     const initTitle = document.createElement('h4');
-    initTitle.innerHTML = '🖼️ Upload Image';
+    initTitle.innerHTML = '🖼️ Upload Image ';
     initTitle.style = 'cursor: pointer;';
+    const editorInputsInitImageI = editorInputsInitImage.querySelector('i');
+    initTitle.appendChild(editorInputsInitImageI);
     editorInputsInitImage.replaceChild(initTitle, editorInputsInitImageLabel);
     const imgPreview = editorInputsInitImage.querySelector('.image_preview_container');
     const colorCorrect = editorInputsInitImage.querySelector('#apply_color_correction_setting');
@@ -1098,7 +1152,6 @@ function waitFor(selectors) {
         newI.className = 'icon';
         if (el.innerHTML.includes('Browse')) {
             newI.textContent = '⬆️';
-            // el.innerHTML = el.innerHTML.replace('Browse', 'Select'); //this line breaks the button
             el.replaceChild(newI, el.querySelector('i'));
         } else if (el.innerHTML.includes('Draw')) {
             newI.textContent = '✏️';
@@ -1111,15 +1164,14 @@ function waitFor(selectors) {
     }
 
     const editorElementsBtn = document.createElement('button');
-    editorElementsBtn.className = 'btn btn-default editor-elements-btn';
-    editorElementsBtn.style = 'padding: 5px 10px 5px 8px; width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 5px;'
+    editorElementsBtn.id = 'editor-elements-btn';
+    editorElementsBtn.className = 'btn btn-default';
     editorElementsBtn.textContent = '🔽';
     editorElementsBtn.addEventListener('click', () => {
         if (isEditorOpen) {
             editorElementsBtn.textContent = '🔼';
             editorStgs.style.display = 'none';
             editorInputsPrompt.style.display = 'none';
-            editorMods.style.display = 'none';
             editorInputsInitImage.style.display = 'none';
             editor.style.height = 'min-content !important';
             isEditorOpen = false;
@@ -1127,10 +1179,8 @@ function waitFor(selectors) {
             editorElementsBtn.textContent = '🔽';
             editorStgs.style.display = 'block';
             editorInputsPrompt.style.display = 'block';
-            editorMods.style.display = 'block';
             editorInputsInitImage.style.display = 'block';
             editor.style.height = 'min-content !important';
-            preview.style.width = '100dvw !important';
             isEditorOpen = true;
         }
         updateLayout();
@@ -1167,6 +1217,7 @@ function waitFor(selectors) {
     imgDetailsBtn.style.padding = '5px 10px';
     imgDetailsBtn.style.marginRight = '5px';
     let showDetails = false;
+    const previewContent = document.getElementById('preview-content');
     imgDetailsBtn.addEventListener('click', () => {
         showDetails = !showDetails;
         const imageTaskContainer = previewContent.querySelectorAll('.imageTaskContainer');
@@ -1195,6 +1246,7 @@ function waitFor(selectors) {
             toggleEditor(0);
             topNav.style.display = 'none';
         }
+        updateLayout();
     });
 
     const fullScreenBtnI = document.createElement('i');
@@ -1202,6 +1254,11 @@ function waitFor(selectors) {
     fullScreenBtnI.textContent = '🖥️';
     fullScreenBtn.insertBefore(fullScreenBtnI, fullScreenBtn.firstChild);
     imgDetailsBtn.insertAdjacentElement('afterend', fullScreenBtn);
+
+    const undoBtn = document.getElementById('undo');
+    const undoBtnI = undoBtn.querySelector('i');
+    undoBtnI.className = 'icon';
+    undoBtnI.textContent = '↩️';
 
     const mergeSingle = document.getElementById('tab-merge-opts-single');
     const mergeSpan = mergeSingle.querySelector('span');
@@ -1357,14 +1414,14 @@ function waitFor(selectors) {
                 const progress = headerContentChildren[i];
                 if (progress.style.height === '0px') {
                     headerContentChildren[i].style.display = showDetails ? 'block' : 'none';
-                    headerContent.style.display = showDetails ? 'block' : 'none';
+                    headerContent.style.display = showDetails ? 'grid' : 'none';
                     // remove padding from parent
                     el.style.padding = showDetails ? '10px' : '0';
                     el.style.border = showDetails ? '1px solid var(--background-color2)' : 'none';
                     el.style.boxShadow = showDetails ? '0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15)' : 'none';
                     // remove padding from .imgItem
                     const imgItem = el.querySelector('.imgItem');
-                    imgItem.style.margin = showDetails ? '10px' : '0';
+                    imgItem.style.padding = showDetails ? '0 10px' : '0';
                     imgItem.style.boxShadow = !showDetails ? '0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15)' : 'none';
                 }
             }
@@ -1373,7 +1430,18 @@ function waitFor(selectors) {
 
     const updateInitText = (imgWidth, imgHeight) => {
         const initialText = document.getElementById('initial-text');
+        let thumbnailSize = document.getElementById('thumbnail_size-input').value;
         const gridContainer = document.createElement('div');
+        const landscape = window.innerWidth > 960 ? true : false;
+        const availableWidth = landscape ? document.body.clientWidth - editor.clientWidth - 100 : document.body.clientWidth - 100;
+        let scaledWidth = imgWidth * thumbnailSize / 100;
+        let scaledHeight = imgHeight * thumbnailSize / 100;
+        if (scaledWidth > availableWidth) {
+            const scale = scaledWidth / availableWidth;
+            scaledWidth = scaledWidth / scale;
+            scaledHeight = scaledHeight / scale;
+        }
+
         gridContainer.style = `
                 display: flex;
                 flex-wrap: wrap;
@@ -1386,8 +1454,8 @@ function waitFor(selectors) {
             const square = document.createElement('div');
             square.style = `
                     position: relative;
-                    width: ${imgWidth}px;
-                    height: ${imgHeight}px;
+                    width: ${scaledWidth}px;
+                    height: ${scaledHeight}px;
                     margin: 10px;
                     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
                 `;
@@ -1397,8 +1465,8 @@ function waitFor(selectors) {
                     position: absolute;
                     top: 0;
                     left: 0;
-                    width: ${imgWidth}px;
-                    height: ${imgHeight}px;
+                    width: ${scaledWidth}px;
+                    height: ${scaledHeight}px;
                     border: 2px solid;
                     border-color: red;
                     border-image: linear-gradient(to bottom right, red, orange, yellow, green, blue, indigo, violet) 1;
@@ -1430,56 +1498,20 @@ function waitFor(selectors) {
         initialText.appendChild(gridContainer);
     }
 
-    let landscape = true;
-    function updateLayout() {
+    const updateLayout = () => {        
         let imgWidth = parseInt(document.getElementById('width').value);
         let imgHeight = parseInt(document.getElementById('height').value);
-        landscape = window.innerWidth > 960 ? true : false;
-        // const topNav = document.getElementById('top-nav');
-        const editorInputsCollapsibleContentParent = editorInputs.querySelectorAll('.collapsible-content-parent');
-        editorInputsCollapsibleContentParent.forEach((el) => {
-            el.style = `
-                    position: relative;
-                `;
-        });
-
-        const editorInputsCollapsibleContent = editorInputs.querySelectorAll('.collapsible-content');
-        if (landscape) {
-            editorInputsCollapsibleContent.forEach((el) => {
-                if (el.classList.contains('editor-modifiers-leaf') || el.parentElement.id === 'editor-negative-prompt') return;
-                el.classList.add('panel-box');
-                el.style = `
-                        position: absolute;
-                        top: ${editor.offsetTop + 60}px;
-                        left: ${editor.clientWidth + 30}px;
-                        min-width: 460px;
-                        width: min-content;
-                        padding: 0 30px 0 30px;
-                        height: calc(100vh - ${editor.offsetTop + 80}px);
-                        overflow-y: scroll;
-                        z-index: 999;
-                    `;
-            });
-        } else {
-            editorInputsCollapsibleContent.forEach((el) => {
-                if (el.classList.contains('editor-modifiers-leaf') || el.parentElement.id === 'editor-negative-prompt') return;
-                el.classList.remove('panel-box');
-                el.style = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    padding-left: 0;
-                    margin: 0;
-                    overflow-y: scroll;
-                    `;
-            });
-        }
-
         const tabContentMain = document.getElementById('tab-content-main');
-        const tabContentMainHeight = `calc(100vh - ${topNav.clientHeight}px)`;
-        tabContentMain.style.height = tabContentMainHeight;
+        const tabContentSettings = document.getElementById('tab-content-settings');
+        const tabContentAbout = document.getElementById('tab-content-about');
+        const tabContentMerge = document.getElementById('tab-content-merge');
+        const tabContentNews = document.getElementById('tab-content-news');
+        const tabContentHeight = `calc(100dvh - ${topNav.clientHeight}px)`;
+        tabContentMain.style.height = tabContentHeight;
+        tabContentSettings.style.height = tabContentHeight;
+        tabContentAbout.style.height = tabContentHeight;
+        tabContentMerge.style.height = tabContentHeight;
+        tabContentNews.style.height = tabContentHeight;
 
         if (!initialText.classList.contains('displayNone')) {
             updateInitText(imgWidth, imgHeight);
@@ -1487,103 +1519,120 @@ function waitFor(selectors) {
 
         const imageTaskContainers = document.querySelectorAll('.imageTaskContainer');
         imageTaskContainers.forEach((el) => {
-            const secondaryButton = el.querySelector('.secondaryButton');
-            const secondaryButtonI = secondaryButton.querySelector('i');
-            secondaryButtonI.className = 'icon';
-            if (secondaryButton.textContent.includes('Remove')) {
-                secondaryButtonI.textContent = '🗑️';
-            } else if (secondaryButton.textContent.includes('Stop')) {
-                secondaryButtonI.textContent = '⏹️';
+            const stopTask = el.querySelector('.stopTask');
+            const stopTaskI = stopTask.querySelector('i');
+            stopTaskI.className = 'icon';
+            if (stopTask.textContent.includes('Remove')) {
+                stopTaskI.textContent = '🗑️';
+            } else if (stopTask.textContent.includes('Stop')) {
+                stopTaskI.textContent = '⏹️';
+            } else if (stopTask.textContent.includes('Cancel')) {
+                stopTaskI.textContent = '❌';
             }
 
-            const tertiaryButton = el.querySelector('.tertiaryButton');
-            const tertiaryButtonI = tertiaryButton.querySelector('i');
-            tertiaryButtonI.className = 'icon';
-            tertiaryButtonI.textContent = '♻️';
+            const useSettings = el.querySelector('.useSettings');
+            const useSettingsI = useSettings.querySelector('i');
+            useSettingsI.className = 'icon';
+            useSettingsI.textContent = '♻️';
+            useSettings.textContent = 'ReUse';
+            useSettings.insertBefore(useSettingsI, useSettings.firstChild);
 
 
-            let availableHeight = document.body.clientHeight - topNav.clientHeight;
-            let availableWidth = document.body.clientWidth;
-            let newWidth = 0;
-            let total = 0;
-            const imgPreview = el.querySelector('.img-preview');
-            const img = imgPreview.querySelectorAll('img');
-            if (img && landscape) {
-                availableHeight = document.body.clientHeight - topNav.clientHeight;
-                availableWidth = document.body.clientWidth - editor.clientWidth;
-                let naturalWidth = 0;
-                img.forEach((el) => {
-                    total++;
-                    naturalWidth = el.naturalWidth;
-                    totalWidth = naturalWidth * total;
-                });
-                if (naturalWidth === 0) {
-                    newWidth = imgWidth;
-                } else if (naturalWidth <= 128 && total > 1) {
-                    newWidth = naturalWidth * 4 + 100;
-                } else if (naturalWidth <= 256 && total > 1) {
-                    newWidth = naturalWidth * 3 + 100;
-                } else if (naturalWidth <= 512 && total > 1) {
-                    newWidth = naturalWidth * 2 + 100;
-                } else if (naturalWidth < 1025) {
-                    newWidth = naturalWidth;
-                } else {
-                    newWidth = naturalWidth;
-                }
-                if (newWidth > availableWidth) { newWidth = availableWidth; }
-            } else {
-                availableHeight = document.body.clientHeight - topNav.clientHeight - editor.clientHeight;
-                newWidth = el.parentElement.clientWidth - 30;
-            }
-
-
-            preview.style = `
-                height: ${availableHeight}px !important;
-                width: ${availableWidth}px !important;
-            `;
-            initialText.style = `
-                height: ${availableHeight}px !important;
-                width: ${availableWidth}px !important;
-            `;
-
-            el.style = `
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    padding: 10px;
-                    margin: 10px !important;
-                    min-width: ${newWidth}px !important;
-                    height: min-content !important;
-                    width: min-content !important;
-                    margin: 5px auto;
-                    `;
-
-            imgPreview.style = `text-align: center;`;
-
-
-            hideDetails(el);
-
-            const observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                    if (mutation.type == "childList") {
-                        //do nothing
-                    }
-                });
+            let naturalWidth = imgWidth;
+            const imgs = el.querySelectorAll('img');
+            imgs.forEach((el) => {
+                naturalWidth = el.naturalWidth !== naturalWidth ? el.naturalWidth : naturalWidth;
             });
-            observer.observe(el, { childList: true });
+            updatePreview(el, naturalWidth);
         });
-
     }
 
-    updateLayout();
+    const updatePreview = (el, naturalWidth) => {
+        const landscape = window.innerWidth > 960 ? true : false;
+        const imgPreview = el.querySelectorAll('.img-preview');
+        const imgs = el.querySelectorAll('img');
+        const imgCount = imgs.length > 0 ? imgs.length : 1;
+        const thumbnailSize = document.getElementById('thumbnail_size-input').value;
+        let scaledWidth = naturalWidth * thumbnailSize / 100;
+        const padding = scaledWidth * 0.2 * imgCount;
+        let totalWidth = scaledWidth * imgCount + padding;
+        const availableHeight = landscape ? document.body.clientHeight - topNav.clientHeight : document.body.clientHeight - topNav.clientHeight - editor.clientHeight;
+        const availableWidth = landscape ? document.body.clientWidth - editor.clientWidth : document.body.clientWidth;
+        const newWidth = totalWidth > availableWidth ? availableWidth : totalWidth;
+        
+        // console.log(`totalWidth: ${totalWidth}, imgLength: ${imgCount}, naturalWidth: ${naturalWidth}`);
+
+        preview.style = `
+            height: ${availableHeight}px !important;
+            width: ${availableWidth}px !important;
+        `;
+
+        initialText.style = `
+            height: ${availableHeight}px !important;
+            width: ${availableWidth}px !important;
+        `;
+        
+        el.style = `
+                display: inline-block;
+                float: left;
+                text-align: left;
+                width: ${newWidth}px !important;
+                margin: 10px;
+                `;
+
+        imgPreview.style = `
+                text-align: center;
+                `;
+
+        hideDetails(el);
+    };
+
+    let isEditorOpen = true; // default
+    const snapThreshold = 520; // default
+    const toggleEditor = (newEditorWidth) => {
+        if (typeof newEditorWidth === 'undefined') {
+            newEditorWidth = isEditorOpen ? 0 : snapThreshold;
+        }
+        editor.style.width = `${newEditorWidth}px`;
+        if (newEditorWidth === 0) {
+            editor.style.display = 'none';
+            toggleBtn.textContent = '▶️';
+            isEditorOpen = false;+
+            previewTools.appendChild(dreamBtn);
+        } else {
+            editor.style.display = 'block';
+            toggleBtn.textContent = '◀️';
+            isEditorOpen = true;
+            editor.appendChild(dreamBtn);
+        }
+        updateLayout();
+    };
+
+    toggleBtn.addEventListener('click', () => {
+        if (isEditorOpen) {
+            toggleEditor(0);
+        } else {
+            toggleEditor(snapThreshold);
+        }
+        updateLayout();
+    });
+
+    const note = editorInputs.nextElementSibling;
+    note.parentNode.removeChild(note);
 
     const observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             if (mutation.type == "childList") {
-                if (mutation.target.innerHTML.includes('Make Image')) {
-                    mutation.target.innerHTML = makeLbl;
+                const numOutputsTotal = document.getElementById('num_outputs_total');
+                if (mutation.target.innerHTML.includes('Make')) {
+                    // #num_outputs_total
+                    mutation.target.innerHTML = ` Dream (${numOutputsTotal.value})`;
+                    mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
                     editor.style.height = 'min-content !important';
-                } else if (mutation.target.innerHTML.includes('Enqueue Next Image')) {
-                    mutation.target.innerHTML = '🤯 Keep Dreaming';
+                } else if (mutation.target.innerHTML.includes('Enqueue')) {
+                    mutation.target.innerHTML = ` Keep Dreaming (${numOutputsTotal.value})`;
+                    dreamBtnI.textContent = '🤯';
+                    mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
                     editor.style.height = 'min-content !important';
                 } else if (mutation.target.innerHTML == 'Remove') {
                     mutation.target.innerHTML = '🗑️';
@@ -1602,10 +1651,34 @@ function waitFor(selectors) {
                         cursor: ${editorControlsCenterDiv.style.cursor} !important;
                         `;
                 editorControlsCenter.style = editorControlsCenterDivStyle;
-                updateLayout();
             }
+            updateLayout();
         });
     });
     observer.observe(dreamBtn, { childList: true });
     window.addEventListener('resize', updateLayout);
+    const previewContentObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(() => {
+            updateLayout();
+            const imgPreview = document.querySelectorAll('.img-preview');
+            imgPreview.forEach((el) => {
+                // listen for added children and sub children
+                const imgPreviewObserver = new MutationObserver(function (mutations) {
+                    mutations.forEach((mutation) => {
+                        // if add img to .img-batch update layout
+                        if (mutation.target.classList.contains('img-batch')) {
+                            // wait for img to load
+                            const img = mutation.target.querySelector('img');
+                            img.addEventListener('load', () => {
+                                updateLayout();
+                            });
+                        }
+                    });
+                });
+                imgPreviewObserver.observe(el, { childList: true, subtree: true });
+            });
+        });
+    });
+    previewContentObserver.observe(previewContent, { childList: true });
+    updateLayout();
 })();
