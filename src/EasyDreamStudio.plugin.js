@@ -1037,19 +1037,6 @@ function waitFor(selectors) {
         el.classList.remove('active');
     });
 
-    const editorStgsCloseBtn = document.createElement('button');
-    editorStgsCloseBtn.className = 'btn btn-default';
-    editorStgsCloseBtn.style.padding = '5px 10px';
-    editorStgsCloseBtn.style.maxWidth = '30px';
-    editorStgsCloseBtn.textContent = 'X';
-    editorStgsCloseBtn.addEventListener('click', () => {
-        editorStgsTitle.classList.remove('active');
-        editorStgs.querySelector('#editor-settings-entries').style.display = 'none';
-    });
-    const editorStgsEntries = editorStgs.querySelector('#editor-settings-entries');
-    editorStgsEntries.querySelector('.settings-subheader').insertAdjacentElement('afterend', editorStgsCloseBtn);
-
-
     const promptLabel = editorInputsPrompt.querySelector('label');
     const smallTag = editorInputsPrompt.querySelector('small');
     const fileButton = editorInputsPrompt.querySelector('#promptsFromFileBtn');
@@ -1063,7 +1050,6 @@ function waitFor(selectors) {
             promptTextarea.style.display = 'none';
         }
     });
-
 
     const promptWrapper = document.createElement('div');
     promptWrapper.id = 'editor-prompt';
