@@ -1678,5 +1678,10 @@ function waitFor(selectors) {
         });
     });
     previewContentObserver.observe(previewContent, { childList: true });
+    // listen for changes in .thumbnail_size-input value and update layout
+    const thumbnailSizeInput = document.getElementById('thumbnail_size-input');
+    thumbnailSizeInput.addEventListener('change', () => {
+        updateLayout();
+    });
     updateLayout();
 })();
