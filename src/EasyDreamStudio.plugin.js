@@ -1627,6 +1627,7 @@ function waitFor(selectors) {
                 if (mutation.target.innerHTML.includes('Make')) {
                     // #num_outputs_total
                     mutation.target.innerHTML = ` Dream (${numOutputsTotal.value})`;
+                    dreamBtnI.textContent = '✨';
                     mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
                     editor.style.height = 'min-content !important';
                 } else if (mutation.target.innerHTML.includes('Enqueue')) {
