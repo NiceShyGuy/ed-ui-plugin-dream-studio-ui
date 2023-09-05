@@ -523,11 +523,11 @@ function waitFor(selectors) {
         }
         
         .editor-controls-center {
-            display: block;
-            flex: 0;
-            justify-content: none;
-            align-items: none;
             padding: 20px;
+        }
+
+        .editor-controls-center > div {
+            margin: 0;
         }
 
         .editor-controls-right {
@@ -669,11 +669,10 @@ function waitFor(selectors) {
                 padding: 0;
                 width: 100dvw !important;
                 height: min-content !important;
+                max-height: 100dvh !important;
                 z-index: 100;
                 display: flex;
                 flex-direction: column;
-                align-items: left;
-                justify-content: flex-end;
                 overflow-x: hidden;
             }
 
@@ -785,7 +784,6 @@ function waitFor(selectors) {
                 justify-content: center !important;
                 align-items: center !important;
                 max-width: 100%;
-                min-height: 128px;
                 max-height: 128px;
                 padding-top: 32px;
                 gap: 10px;
@@ -823,15 +821,15 @@ function waitFor(selectors) {
                 display: flex;
                 width: 100%;
                 flex-direction: row;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
                 column-gap: 10px;
             }
 
             .editor-controls-right > div, .editor-controls-right > div:last-child {
-                flex-basis: auto;
                 height: min-content;
                 flex: 0;
+                flex-direction: row;
             }
 
             .editor-controls-right > div > h4 {
@@ -1617,7 +1615,6 @@ function waitFor(selectors) {
             if (mutation.type == "childList") {
                 const numOutputsTotal = document.getElementById('num_outputs_total');
                 if (mutation.target.innerHTML.includes('Make')) {
-                    // #num_outputs_total
                     mutation.target.innerHTML = ` Dream +${numOutputsTotal.value}`;
                     dreamBtnI.textContent = '✨';
                     mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
@@ -1631,19 +1628,6 @@ function waitFor(selectors) {
                     mutation.target.innerHTML = '🗑️';
                     editor.style.height = 'min-content !important';
                 }
-
-                const editorControlsCenter = document.querySelector('.editor-controls-center');
-                const editorControlsCenterDiv = editorControlsCenter.querySelector('div');
-                const editorControlsCenterDivStyle = `
-                        display: flex !important;
-                        flex-direction: row !important;
-                        justify-content: center !important;
-                        align-items: center !important;
-                        width: 100% !important;
-                        height: auto !important;
-                        cursor: ${editorControlsCenterDiv.style.cursor} !important;
-                        `;
-                editorControlsCenter.style = editorControlsCenterDivStyle;
             }
             updateLayout();
         });
@@ -1677,6 +1661,18 @@ function waitFor(selectors) {
     const thumbnailSizeInput = document.getElementById('thumbnail_size-input');
     thumbnailSizeInput.addEventListener('change', () => {
         updateLayout();
+    });
+
+    // listen for mouse move on .editor-controls-center
+    const editorControlsCenter = document.querySelectorAll('.editor-controls-center');
+    editorControlsCenter.forEach((el) => {
+            el.addEventListener('mousemove', () => {
+            const editorControlsCenterDiv = el.querySelector('div');
+            const editorCanvasOverlay = document.querySelectorAll('.editor-canvas-overlay');
+            editorCanvasOverlay.forEach((el) => {
+                el.style = `cursor: ${editorControlsCenterDiv.style.cursor};`;
+            });
+        });
     });
     updateLayout();
 })();
