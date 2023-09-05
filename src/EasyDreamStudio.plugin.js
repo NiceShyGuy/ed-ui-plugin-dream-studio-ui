@@ -107,7 +107,7 @@ function waitFor(selectors) {
         #logo h1 img {
             width: 32px;
             height: 32px;
-            margin-right: 8px;
+            margin: 0 8px 8px 0;
         }
 
         #logo-wrapper, #version-wrapper, #by-wrapper {
@@ -222,15 +222,21 @@ function waitFor(selectors) {
         label[for="prompt"] {
             grid-column: 1;
             grid-row: 1;
+            white-space: nowrap;
+            margin-right: 8px;
         }
 
         #prompt-toolbar {
-            grid-column: 2 / span 2;
             grid-row: 1;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+            grid-column: 3 / span 2;
+        }
+
+        .toolbar-left, .toolbar-right {
+            white-space: nowrap;
+        }
+
+        #image-modifier-dropdown, #embeddings-button {
+            margin: 0 8px 0 0;
         }
 
         #makeImage, #editor-settings {
@@ -361,8 +367,10 @@ function waitFor(selectors) {
 
         #promptsFromFileBtn {
             grid-row: 1;
-            margin-left: 4px;
+            grid-column: 2;
             width: fit-content;
+            white-space: nowrap;
+            margin-right: 8px;
         }
 
         #editor-modifiers {
@@ -855,7 +863,7 @@ function waitFor(selectors) {
     
     const separator = document.createElement('span');
     separator.textContent = '/';
-    separator.style = 'color: purple; font-size: 80px; font-weight: normal;';
+    separator.style = 'color: purple; font-size: 80px; font-weight: normal; margin-top: 14px;';
     const separator2 = separator.cloneNode(true);
     separator2.style = 'color: purple; font-size: 48px; font-weight: normal;';
     
@@ -889,7 +897,7 @@ function waitFor(selectors) {
     vWrapper.appendChild(easyVersion);
     vWrapper.appendChild(dreamVersion);
     vWrapper.id = 'version-wrapper';
-    vWrapper.style = 'position: relative; top: -30px; left: -23px;';
+    vWrapper.style = 'position: relative; top: -36px; left: -23px;';
 
     logoWrapper.insertAdjacentElement('afterend', vWrapper);
     easyVersion.addEventListener('click', () => {
@@ -1055,8 +1063,8 @@ function waitFor(selectors) {
     promptWrapper.id = 'editor-prompt';
     promptWrapper.style = `
             display: grid;
-            grid-template-rows: 1fr auto;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 3fr;
+            grid-template-columns: repeat(3, min-content);
             justify-items: space-between;
             align-items: center;
             background: var(--background-color4);
@@ -1065,6 +1073,7 @@ function waitFor(selectors) {
             padding: 7px;
             margin-bottom: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
+            overflow-x: scroll;
         `;
     promptLabel.innerHTML = '<i class="icon">📝</i> <b>Prompt</b>';
     const fileButtonI = document.createElement('i');
