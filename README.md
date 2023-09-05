@@ -1,6 +1,7 @@
 # Easy Dream Studio for Easy Diffusion
 
 ![Screenshot](src/assets/Screenshot.jpg)
+![Screenshot](src/assets/Screenshot2.jpg)
 
 ## Description
 
