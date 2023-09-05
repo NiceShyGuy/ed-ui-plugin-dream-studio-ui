@@ -1618,12 +1618,12 @@ function waitFor(selectors) {
                 const numOutputsTotal = document.getElementById('num_outputs_total');
                 if (mutation.target.innerHTML.includes('Make')) {
                     // #num_outputs_total
-                    mutation.target.innerHTML = ` Dream (${numOutputsTotal.value})`;
+                    mutation.target.innerHTML = ` Dream +${numOutputsTotal.value}`;
                     dreamBtnI.textContent = '✨';
                     mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
                     editor.style.height = 'min-content !important';
                 } else if (mutation.target.innerHTML.includes('Enqueue')) {
-                    mutation.target.innerHTML = ` Keep Dreaming (${numOutputsTotal.value})`;
+                    mutation.target.innerHTML = ` Keep Dreaming +${numOutputsTotal.value}`;
                     dreamBtnI.textContent = '🤯';
                     mutation.target.insertBefore(dreamBtnI, mutation.target.firstChild);
                     editor.style.height = 'min-content !important';
