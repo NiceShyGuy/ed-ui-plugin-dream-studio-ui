@@ -48,6 +48,6 @@ If you enjoy using this project and find it helpful, please consider supporting 
 
 If you would like to make a financial contribution to support development, you can donate using the following method:
 
-- [PayPal](https://paypal.me/ScottDIT)
+- [Ko-fi](https://ko-fi.com/3v1lxd)
 
 Your donation, no matter the size, is greatly appreciated and will help to support future development and maintenance. Thank you for your generosity!
