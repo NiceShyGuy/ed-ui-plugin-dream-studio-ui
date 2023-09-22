@@ -660,8 +660,6 @@ function waitFor(selectors) {
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 12pt;
-            max-height: 155px;
-            overflow-y: scroll;
         }
 
         .preview-prompt::-webkit-scrollbar {
