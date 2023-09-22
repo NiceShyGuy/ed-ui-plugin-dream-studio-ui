@@ -1589,7 +1589,7 @@ function waitFor(selectors) {
             el.appendChild(octagon);
         } else if (octagon && imgCount === 0) {
             octagon.style.top = `${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px`;
-            if (maxHeight < 300) {
+            if (maxHeight < 275) {
                 octagon.style.top = `calc(65% - (100% / 9 / 2))`;
             }
         }
