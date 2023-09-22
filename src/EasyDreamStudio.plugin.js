@@ -1,6 +1,6 @@
-/**
+/*
  * Easy Dream Studio
- * Version 0.3
+ * Version 0.3.5
  * Author: @3V1LXD
  * License: MIT
  * Description:  
@@ -10,6 +10,15 @@
  * As a front-end for the image-generating software 
  * Stable Diffusion, Dream Studio's UI has inspired 
  * the design of EDS.
+ *
+ * Features:
+    - Replicates the UI of Dream Studio
+    - Snap close editor
+    - Fullscreen Mode (hide Editor and Top Nav)
+    - Editor controls scroll and collapse
+    - Splitter resizes Editor and Preview (landscape mode)
+    - Show/Hide Details (hidden by default)
+    - Responsive Design
  */
 
 function waitFor(selectors) {
@@ -217,6 +226,8 @@ function waitFor(selectors) {
             grid-column: 1 / span 4;
             grid-row: 2;
             width: 100% !important;
+            margin-top: 12px;
+            margin-bottom: 0;
         }
 
         label[for="prompt"] {
@@ -241,6 +252,10 @@ function waitFor(selectors) {
 
         #makeImage, #editor-settings {
             margin: 10px 0;
+        }
+
+        #gfpgan_model {
+            width: min-content;
         }
 
         .editor {
@@ -314,9 +329,14 @@ function waitFor(selectors) {
             overflow-y: scroll;
         }
 
+        #preview {
+            padding: 0;
+        }
+
         #preview-content {
             display: flex;
             flex-wrap: wrap;
+            gap: 10px;
             justify-content: center;
             text-align: center;
         }
@@ -351,7 +371,7 @@ function waitFor(selectors) {
             display: flex;
             justify-content:center;
             align-items: center;
-            margin: 5px 0 5px 0 ;
+            margin: 5px 0 10px 0 ;
         }
 
         .editor {
@@ -363,6 +383,17 @@ function waitFor(selectors) {
             width: 100%;
             box-sizing: border-box;
             margin-top: 16px;
+        }
+
+        .imageTaskContainer::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .imageTaskContainer .collapsible-content {
+            padding: 0 !important;
+            width: 0;
+            height: 0;
         }
 
         #promptsFromFileBtn {
@@ -433,13 +464,8 @@ function waitFor(selectors) {
         }
 
         .image-editor-popup > div , .image-editor-popup > div > div, image-inpainter > div, image-inpainter > div > div {
-            min-width: 0 !important;
             min-height: 0 !important;
-            height: min-content !important;
-            max-width: none !important;
-            max-height: none !important;
             margin: 0 !important;
-            padding: 0 !important;
         }
 
         .image-editor-popup > div {
@@ -451,12 +477,8 @@ function waitFor(selectors) {
 
         .image-editor-button {
             display: block;
-            width: min-content;
-            margin: 5px 0;
+            min-width: min-content;
             padding: 5px 10px;
-            border: none;
-            border-radius: 8px;
-            background-color: var(--background-color1);
             cursor: pointer;
             text-align: left;
             white-space: nowrap;
@@ -468,58 +490,17 @@ function waitFor(selectors) {
 
         .editor-controls-left > div > h4 {
             display: flex;
-            background-color: var(--background-color1);
+            background-color: var(--background-color4);
             border-radius: 8px;
             padding: 6px 10px 6px 6px;
+            margin: 5px 0;
             align-items: center;
             text-align: center;
             cursor: pointer;
         }
 
-        .image_editor_tool, image_editor_color, .image_editor_brush_size, .image_editor_opacity, .image_editor_sharpness {
-            position: relative;
-        }
-
-        .editor-options-container {
-            display: none;
-            position: absolute;
-        }
-
-        .editor-options-container.active {
-            display: flex;
-            flex-direction: row;
-            width: min-content;
-            left: 144px;
-            padding: 0px;
-            border-radius: 8px;
-            z-index: 100;
-        }
-
-        .image_editor_opacity .editor-options-container, .image_editor_sharpness .editor-options-container {
-            top: 0;
-        }
-
         .image_editor_tool .editor-options-container {
-            top: 0;
-            left: 140px;
-        }
-
-        .image_editor_color .editor-options-container {
-            top: 32px;
-            left: 148px;
-        }
-
-        .image_editor_brush_size .editor-options-container {
-            top: calc(-100% / 2);
-        }
-
-        .image_editor_color > div {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            margin: 5px 0;
-            min-width: 240px;
-            top: 20px;
+            row-gap: 0;
         }
         
         .editor-controls-center {
@@ -538,8 +519,19 @@ function waitFor(selectors) {
             align-items: left;
         }
 
-        .editor-controls-right > div {
-            width: 128px;
+        .popup .close-button {
+            padding: 20px;
+        }
+
+        .image-editor-popup h4 {
+            display: flex;
+            background-color: var(--background-color4);
+            border-radius: 8px;
+            padding: 6px 10px 6px 6px;
+            margin: 0 0 5px 0;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
         }
 
         .editor-controls-right > div:last-child {
@@ -568,18 +560,40 @@ function waitFor(selectors) {
             width: 100%;
         }
 
+        #editor-inputs-init-image {
+            margin-bottom: 10px;
+        }
+
+        #editor-inputs-tags-container {
+            background: var(--background-color4);
+            border: 1px solid var(--background-color3);
+            border-radius: 7px;
+            padding: 7px;
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px 0px, rgba(0, 0, 0, 0.15) 0px 6px 20px 0px;
+        }
+
+        #editor-inputs-tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
         #supportBanner {
             height: 0;
+            width: 100%;
             border: none;
+            visibility: hidden;
+            padding: 0;
             margin: 0;
-            color: none;
-            opacity: 0;
         }
 
         .header-content {
             display: grid;
             grid-gap: 6px;
             grid-template-rows: repeat(4, min-content);
+            padding: 5pt;
+            height: min-content;
         }
 
         .drag-handle {
@@ -607,35 +621,60 @@ function waitFor(selectors) {
             white-space: nowrap;
         }
 
+        .taskConfigData {
+            font-size: 9pt;
+        }
+
         .preview-prompt {
-            grid-row: 3;
+            grid-row: 6;
             grid-column: 1 / span 4;
             margin: 0;
+            font-size: 12pt;
+            max-height: 155px;
+            overflow-y: scroll;
+        }
+
+        .preview-prompt::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .concat {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .taskConfig {
-            grid-row: 4;
-            grid-column: 1 / span 4;
-            margin: 0;
-        }
-
-        .outputMsg {
             grid-row: 5;
             grid-column: 1 / span 4;
             margin: 0;
         }
 
+        .outputMsg {
+            grid-row: 4;
+            grid-column: 1 / span 4;
+            margin: 0;
+            font-size: 9pt;
+        }
+
         .progress-bar {
-            grid-row: 6;
+            grid-row: 3;
             grid-column: 1 / span 4;
         }
 
         .img-preview {
-            text-align: center;
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .img-batch {
+            display: inline-flex;
         }
 
         .imgItem {
-            margin: 10px;
+            margin: 0;
+            padding: 0 !important;
         }
 
         #footer-popup::backdrop {
@@ -749,6 +788,14 @@ function waitFor(selectors) {
                 margin: 0 10px 0 10px;
             }
 
+            #editor-inputs-tags-container {
+                margin: 10px 10px 0 10px;
+            }
+
+            #makeImage {
+                margin: 10px;
+            }
+
             .splitter {
                 display: none;
             }
@@ -757,83 +804,6 @@ function waitFor(selectors) {
                 display: grid;
                 grid-template-columns: 1fr;
                 grid-gap: 10px;
-            }
-
-            .image-editor-popup, image-inpainter {
-                flex-direction: row !important;
-                height: 100% !important;
-            }
-
-            .image-editor-popup > div, image-inpainter > div {
-                flex-direction: row !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 100% !important;
-                height: 100% !important;
-            }
-            
-            .image-editor-popup > div > .flex-container, image-inpainter > div > .flex-container {
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            .editor-controls-left {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center !important;
-                align-items: center !important;
-                max-width: 100%;
-                max-height: 128px;
-                padding-top: 32px;
-                gap: 10px;
-            }
-
-            .editor-controls-left > div {
-                flex-basis: auto;
-                height: min-content;
-            }
-
-            .editor-controls-left > div > h4 {
-                margin: 0;
-            }
-
-            .image_editor_tool, image_editor_color, .image_editor_brush_size, .image_editor_opacity, .image_editor_sharpness {
-                position: static;
-            }
-
-            .image_editor_tool .editor-options-container, .image_editor_color .editor-options-container, .image_editor_brush_size .editor-options-container, .image_editor_opacity .editor-options-container, .image_editor_sharpness .editor-options-container {
-                top: 180px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .editor-controls-right {
-                display: flex;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                width: 100%;
-                column-gap: 10px;
-            }
-
-            .editor-controls-right > div {
-                display: flex;
-                width: 100%;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                column-gap: 10px;
-            }
-
-            .editor-controls-right > div, .editor-controls-right > div:last-child {
-                height: min-content;
-                flex: 0;
-                flex-direction: row;
-            }
-
-            .editor-controls-right > div > h4 {
-                display: none;
             }
 
             #footer-popup {
@@ -845,6 +815,81 @@ function waitFor(selectors) {
             #top-nav {
                 flex-direction: column;
                 align-items: center;
+            }
+        }
+
+        @media screen and (max-width: 1300px) {
+            .image-editor-popup > div {
+                padding: 0;
+            }
+
+            .image-editor-popup .button {
+                max-width: 200px;
+            }
+            
+            .image-editor-popup, image-inpainter {
+                flex-direction: row !important;
+                height: 100% !important;
+            }
+
+            .image-editor-popup > div, image-inpainter > div {
+                height: 100dvh;
+                overflow: scroll;
+            }
+            
+            .image-editor-popup > div > .flex-container, image-inpainter > div > .flex-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .editor-controls-left {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 100dvw;
+                padding-top: 32px;
+                gap: 10px;
+            }
+
+            .editor-controls-left > div {
+                flex-basis: auto;
+                height: min-content;
+                max-width: 256px;
+            }
+
+            .editor-controls-center {
+                max-width: 100dvw;
+            }
+
+            .editor-controls-right {
+                display: flex;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 100dvw;
+                column-gap: 10px;
+            }
++
+            .editor-controls-right > div {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                column-gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .editor-controls-right > div, .editor-controls-right > div:last-child {
+                flex-direction: row;
+            }
+
+            .editor-controls-right > div > h4 {
+                display: none;
+            }
+
+            .editor-controls-right > div:last-child {
+                justify-content: center;
             }
         }
         `;
@@ -888,7 +933,7 @@ function waitFor(selectors) {
     logo.appendChild(logoWrapper);
 
     const dreamVersion = document.createElement('small');
-    dreamVersion.textContent = 'v0.3';
+    dreamVersion.textContent = 'v0.3.5';
     dreamVersion.style = 'margin-left: 40px;';
     dreamVersion.classList.add('dream-gradient');
     const vWrapper = document.createElement('span');
@@ -923,7 +968,7 @@ function waitFor(selectors) {
     const tabMerge = document.getElementById('tab-merge');
     const tabMergeI = tabMerge.querySelector('i');
     tabMergeI.className = 'icon';
-    tabMergeI.textContent = '🔀';
+    tabMergeI.textContent = '🛠️';
 
     const tabNews = document.getElementById('tab-news');
     const tabNewsI = tabNews.querySelector('i');
@@ -960,6 +1005,26 @@ function waitFor(selectors) {
     topNav.appendChild(donateWrapper);
 
     // https://www.patreon.com/EasyDiffusion
+    const renderButtons = document.getElementById('render-buttons');
+    const stopImage = renderButtons.querySelector('#stopImage');
+    const stopImageI = document.createElement('i');
+    stopImageI.className = 'icon';
+    stopImageI.textContent = '⏹️';
+    stopImage.innerHTML = ' Stop All';
+    stopImage.insertBefore(stopImageI, stopImage.firstChild);
+    const pauseImage = renderButtons.querySelector('#pause');
+    const pauseImageI = document.createElement('i');
+    pauseImageI.className = 'icon';
+    pauseImageI.textContent = '⏸️';
+    pauseImage.innerHTML = ' Pause';
+    pauseImage.insertBefore(pauseImageI, pauseImage.firstChild);
+    const resumeImage = renderButtons.querySelector('#resume');
+    const resumeImageI = document.createElement('i');
+    resumeImageI.className = 'icon';
+    resumeImageI.textContent = '▶️';
+    resumeImage.innerHTML = ' Resume';
+    resumeImage.insertBefore(resumeImageI, resumeImage.firstChild);
+    
 
     const preview = document.getElementById('preview');
     const previewTools = document.getElementById('preview-tools');
@@ -1022,11 +1087,15 @@ function waitFor(selectors) {
 
     const editorMods = document.getElementById('editor-modifiers');
     const editorModsTitle = editorMods.querySelector('h4');
-    editorModsTitle.innerText = '🌈 Style';
+    editorModsTitle.innerText = '🌈 Styles';
+    editorModsTitle.style = 'font-size: 10pt; font-weight: normal;';
 
     const editorStgs = document.getElementById('editor-settings');
     const editorStgsTitle = editorStgs.querySelector('h4');
     editorStgsTitle.innerText = '📐 Advanced';
+    editorStgsTitle.style = 'font-size: 10pt; font-weight: normal;';
+    const GFPGANParent = editorStgs.querySelector('#gfpgan_model').parentNode;
+    GFPGANParent.style = 'position: relative; display: inline-block;';
 
     const editorStgsParent = editorStgs.parentNode;
     editorStgsParent.removeChild(editorStgs);
@@ -1061,8 +1130,6 @@ function waitFor(selectors) {
     promptWrapper.id = 'editor-prompt';
     promptWrapper.style = `
             display: grid;
-            grid-template-rows: 1fr 3fr;
-            grid-template-columns: repeat(3, min-content);
             justify-items: space-between;
             align-items: center;
             background: var(--background-color4);
@@ -1073,7 +1140,7 @@ function waitFor(selectors) {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
             overflow-x: scroll;
         `;
-    promptLabel.innerHTML = '<i class="icon">📝</i> <b>Prompt</b>';
+    promptLabel.innerHTML = '<i class="icon">📝</i> Prompt';
     const fileButtonI = document.createElement('i');
     fileButtonI.className = 'icon smallButton';
     fileButtonI.textContent = '📄';
@@ -1088,12 +1155,51 @@ function waitFor(selectors) {
     const promptFromFile = editorInputsPrompt.querySelector('#prompt_from_file');
     promptFromFile.insertAdjacentElement('beforebegin', promptWrapper);
     const imageModBtn = editorInputsPrompt.querySelector('#image-modifier-dropdown');
-    imageModBtn.textContent = '🌈 Style';
+    imageModBtn.textContent = '🌈 Styles';
+    const editorInputsTagsContainer = document.querySelector('#editor-inputs-tags-container');
+    const editorInputsTagsHeader = document.createElement('div');
+    editorInputsTagsHeader.style = `display: flex; align-items: center; justify-content: space-between;`;
+    const tagsLabel = editorInputsTagsContainer.querySelector('label');
+    editorInputsTagsHeader.appendChild(tagsLabel);
+    tagsLabel.innerHTML = `
+            <i class="icon">🏷️</i> Style Tags 
+            <i class="fa-solid fa-circle-question help-btn">
+            <span class="simple-tooltip right">Click a Tag to remove it, right-click to temporarily disable it, use Ctrl+Mouse Wheel to adjust its weight</span>
+            </i> <small id="editor-inputs-tags-count">(0) tags</small>
+            `;
+    tagsLabel.style = 'cursor: pointer;';
+    const tagsClearBtn = document.createElement('button');
+    tagsClearBtn.id = 'editor-input-tags-clear';
+    tagsClearBtn.className = 'secondaryButton';
+    tagsClearBtn.style = 'float: right;';
+    tagsClearBtn.textContent = '🗑️ Clear';
+    tagsLabel.insertAdjacentElement('afterend', tagsClearBtn);
+    const editorInputsTagsList = editorInputsTagsContainer.querySelector('#editor-inputs-tags-list');
+    editorInputsTagsList.insertAdjacentElement('beforebegin', editorInputsTagsHeader);
+    tagsClearBtn.addEventListener('click', () => {
+        editorInputsTagsList.querySelectorAll('.modifier-card').forEach((el) => {
+            el.click();
+        });
+    });
+    const tagsObserver = new MutationObserver(() => {
+        const tagsCount = editorInputsTagsList.querySelectorAll('.modifier-card').length;
+        const tagsCountEl = document.querySelector('#editor-inputs-tags-count');
+        tagsCountEl.textContent = `(${tagsCount}) tags`;
+    });
+    tagsObserver.observe(editorInputsTagsList, { childList: true });
+    tagsLabel.addEventListener('click', () => {
+        if (editorInputsTagsList.style.display === 'none') {
+            editorInputsTagsList.style.display = 'flex';
+        } else {
+            editorInputsTagsList.style.display = 'none';
+        }
+    });
     const embeddingBtn = editorInputsPrompt.querySelector('#embeddings-button');
     embeddingBtn.textContent = '🪡 Embeds';
     const emeddingDialog = document.getElementById('embeddings-dialog');
     const emeddingDialogH4 = emeddingDialog.querySelector('h4');
     emeddingDialogH4.textContent = '🪡 Embeddings';
+    emeddingDialogH4.style = 'font-size: 10pt; font-weight: normal;';
 
     const negativeLabel = editorInputs.querySelector('label[for="negative_prompt"]');
     const negativeEmbeddingsBtn = editorInputs.querySelector('#negative-embeddings-button');
@@ -1108,16 +1214,16 @@ function waitFor(selectors) {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
         `;
     negativeWrapper.appendChild(negativeLabel);
-    negativeWrapper.appendChild(negativeEmbeddingsBtn);
+    negativeLabel.insertAdjacentElement('afterend', negativeEmbeddingsBtn);
     negativeWrapper.appendChild(negativePrompt);
     promptWrapper.insertAdjacentElement('afterend', negativeWrapper);
 
     const editorInputsInitImage = document.querySelector('#editor-inputs-init-image');
     editorInputsInitImage.classList.add('panel-box');
     const editorInputsInitImageLabel = editorInputsInitImage.querySelector('label');
-    const initTitle = document.createElement('h4');
+    const initTitle = document.createElement('div');
     initTitle.innerHTML = '🖼️ Upload Image ';
-    initTitle.style = 'cursor: pointer;';
+    initTitle.style = 'cursor: pointer; font-size: 10pt;';
     const editorInputsInitImageI = editorInputsInitImage.querySelector('i');
     initTitle.appendChild(editorInputsInitImageI);
     editorInputsInitImage.replaceChild(initTitle, editorInputsInitImageLabel);
@@ -1163,6 +1269,7 @@ function waitFor(selectors) {
             editorStgs.style.display = 'none';
             editorInputsPrompt.style.display = 'none';
             editorInputsInitImage.style.display = 'none';
+            editorInputsTagsContainer.style.display = 'none';
             editor.style.height = 'min-content !important';
             isEditorOpen = false;
         } else {
@@ -1170,6 +1277,7 @@ function waitFor(selectors) {
             editorStgs.style.display = 'block';
             editorInputsPrompt.style.display = 'block';
             editorInputsInitImage.style.display = 'block';
+            editorInputsTagsContainer.style.display = 'block';
             editor.style.height = 'min-content !important';
             isEditorOpen = true;
         }
@@ -1202,17 +1310,23 @@ function waitFor(selectors) {
     autoScrollBtnAdjacentI.textContent = '🔍';
 
     const imgDetailsBtn = document.createElement('button');
+    imgDetailsBtn.id = 'img-details-btn';
     imgDetailsBtn.textContent = ' Show Details';
     imgDetailsBtn.className = 'btn btn-default';
     imgDetailsBtn.style.padding = '5px 10px';
     imgDetailsBtn.style.marginRight = '5px';
-    let showDetails = false;
     const previewContent = document.getElementById('preview-content');
     imgDetailsBtn.addEventListener('click', () => {
-        showDetails = !showDetails;
         const imageTaskContainer = previewContent.querySelectorAll('.imageTaskContainer');
+        const imgDetailsBtn = document.getElementById('img-details-btn');
+        const showDetails = imgDetailsBtn.textContent.includes('Show');
         imageTaskContainer.forEach((el) => {
-            hideDetails(el);
+            toggleDetails(el, showDetails);
+            if (showDetails) {
+                imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Show', 'Hide');                
+            } else {
+                imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Hide', 'Show');                
+            }
         });
     });
 
@@ -1296,69 +1410,38 @@ function waitFor(selectors) {
 
     });
 
+    const editorControlsRight = document.querySelector('.editor-controls-right');
+    const imageEditorPopuph4 = editorControlsRight.querySelector('h4');
+    imageEditorPopuph4.innerHTML = '<i>🎬</i><span style="white-space: nowrap;"> Actions</span>';
+
     const imgEditorTool = document.querySelectorAll('.image_editor_tool');
     imgEditorTool.forEach((el) => {
         const h4 = el.querySelector('h4');
         h4.innerHTML = '<i>⚒️</i><span style="white-space: nowrap;"> Tools</span>';
-        h4.addEventListener('click', () => {
-            if (el.querySelector('.editor-options-container').classList.contains('active') == false) {
-                el.querySelector('.editor-options-container').classList.add('active');
-            } else {
-                el.querySelector('.editor-options-container').classList.remove('active');
-            }
-        });
     });
 
     const imgEditorColor = document.querySelectorAll('.image_editor_color');
     imgEditorColor.forEach((el) => {
         const h4 = el.querySelector('h4');
         h4.innerHTML = '<i>🎨</i><span style="margin-left: 2px; white-space: nowrap;"> Palette</span>';
-        h4.addEventListener('click', () => {
-            if (el.querySelector('.editor-options-container').classList.contains('active') == false) {
-                el.querySelector('.editor-options-container').classList.add('active');
-            } else {
-                el.querySelector('.editor-options-container').classList.remove('active');
-            }
-        });
     });
 
     const imgEditorBrushSize = document.querySelectorAll('.image_editor_brush_size');
     imgEditorBrushSize.forEach((el) => {
         const h4 = el.querySelector('h4');
         h4.innerHTML = '<i>🖌️</i><span style="margin-left: 2px; white-space: nowrap;"> Brush Size</span>';
-        h4.addEventListener('click', () => {
-            if (el.querySelector('.editor-options-container').classList.contains('active') == false) {
-                el.querySelector('.editor-options-container').classList.add('active');
-            } else {
-                el.querySelector('.editor-options-container').classList.remove('active');
-            }
-        });
     });
 
     const imgEditorOpacity = document.querySelectorAll('.image_editor_opacity');
     imgEditorOpacity.forEach((el) => {
         const h4 = el.querySelector('h4');
         h4.innerHTML = '<i>🌫️</i><span style="margin-left: 2px; white-space: nowrap;"> Opacity</span>';
-        h4.addEventListener('click', () => {
-            if (el.querySelector('.editor-options-container').classList.contains('active') == false) {
-                el.querySelector('.editor-options-container').classList.add('active');
-            } else {
-                el.querySelector('.editor-options-container').classList.remove('active');
-            }
-        });
     });
 
     const imgEditorSharpness = document.querySelectorAll('.image_editor_sharpness');
     imgEditorSharpness.forEach((el) => {
         const h4 = el.querySelector('h4');
         h4.innerHTML = '<i>🔪</i><span style="margin-left: 2px; white-space: nowrap;"> Sharpness</span>';
-        h4.addEventListener('click', () => {
-            if (el.querySelector('.editor-options-container').classList.contains('active') == false) {
-                el.querySelector('.editor-options-container').classList.add('active');
-            } else {
-                el.querySelector('.editor-options-container').classList.remove('active');
-            }
-        });
     });
 
     const footer = document.getElementById('footer');
@@ -1395,26 +1478,112 @@ function waitFor(selectors) {
     document.body.appendChild(dialog);
     dialog.showModal();
 
-    const hideDetails = (el) => {
-        const headerContent = el.querySelector('.header-content');
-        const headerContentChildren = headerContent.children;
-
-        for (let i = 0; i < headerContentChildren.length; i++) {
-            if (headerContentChildren[i].classList.contains('progress-bar')) {
-                const progress = headerContentChildren[i];
-                if (progress.style.height === '0px') {
-                    headerContentChildren[i].style.display = showDetails ? 'block' : 'none';
-                    headerContent.style.display = showDetails ? 'grid' : 'none';
-                    // remove padding from parent
-                    el.style.padding = showDetails ? '10px' : '0';
-                    el.style.border = showDetails ? '1px solid var(--background-color2)' : 'none';
-                    el.style.boxShadow = showDetails ? '0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15)' : 'none';
-                    // remove padding from .imgItem
-                    const imgItem = el.querySelector('.imgItem');
-                    imgItem.style.padding = showDetails ? '0 10px' : '0';
-                    imgItem.style.boxShadow = !showDetails ? '0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15)' : 'none';
-                }
+    const toggleDetails = (el, showDetails = false) => {
+        const progress = el.querySelector('.progress-bar');
+        if (progress.style.height === '0px') {
+            const headerContent = el.querySelector('.header-content');
+            const imgItem = el.querySelector('.imgItem');
+            if (showDetails) {
+                headerContent.style.display = 'grid';
+                el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
+                el.style.overflow = 'hidden auto';
+            } else {
+                headerContent.style.display = 'none';
+                el.style.boxShadow = 'none';
+                el.style.overflow = 'unset';
             }
+        }
+    };
+
+    const updatePreview = (el, imgDimensions) => {
+        const landscape = window.innerWidth > 960 ? true : false;
+        const availableHeight = landscape ? document.body.clientHeight - topNav.clientHeight : document.body.clientHeight - topNav.clientHeight - editor.clientHeight;
+        const availableWidth = landscape ? document.body.clientWidth - editor.clientWidth : document.body.clientWidth;
+        const collapsibleContent = el.querySelector('.collapsible-content');
+        const imgPreview = el.querySelector('.img-preview');
+        const imgs = imgPreview.querySelectorAll('img');
+        const imgItems = el.querySelectorAll('.imgItem');
+        const imgCount = imgs.length;
+        const thumbnailSize = document.getElementById('thumbnail_size-input').value;
+        const scaledWidth = imgDimensions.width * thumbnailSize / 100;
+        const scaledHeight = imgDimensions.height * thumbnailSize / 100;
+        const imgFit = Math.floor(availableWidth / (scaledWidth + (10 * (imgCount - 1))));
+        let maxWidth = imgCount > 1 ? scaledWidth * imgCount + (10 * (imgCount - 1)) : scaledWidth;
+        maxWidth = imgCount > imgFit ? scaledWidth * imgFit + (10 * (imgFit - 1)) : maxWidth;
+        const maxHeight = imgCount > imgFit ? scaledHeight * Math.ceil(imgCount / imgFit) + (10 * (Math.ceil(imgCount / imgFit) - 1)) : scaledHeight;
+        
+        preview.style = `
+            height: ${availableHeight}px !important;
+            width: ${availableWidth}px !important;
+        `;
+
+        initialText.style = `
+            height: ${availableHeight}px !important;
+            width: ${availableWidth}px !important;
+        `;
+        
+        el.style = `
+                display: inline-flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                float: left;
+                text-align: left;
+                height: min-content;
+                border: none;
+                border-radius: 0;
+                width: ${maxWidth}px;
+                height: ${maxHeight}px;
+                margin: 0;
+                padding: 0;
+                scroll-snap-type: y;
+                `;
+
+        if (imgCount > 0) {
+            collapsibleContent.style = `
+                    width: ${maxWidth}px;
+                    height: ${maxHeight}px;
+                    `;
+
+            imgPreview.style = `
+                    width: ${maxWidth + 10}px;
+                    height: ${maxHeight}px;
+                    `;     
+        
+            for (let i = 0; i < imgItems.length; i++) {
+                imgItems[i].style = `
+                        width: ${scaledWidth}px;
+                        height: ${scaledHeight}px;
+                        margin: 0 10px 0 0;
+                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4);
+                        scroll-snap-align: start;
+                        `;
+
+                if (i >= imgFit) {
+                    imgItems[i].style.margin = '10px 10px 0 0';
+                }
+
+                const imgContainer = imgItems[i].querySelector('.imgContainer');
+                imgContainer.style = `
+                        width: ${scaledWidth}px;
+                        height: ${scaledHeight}px;
+                        `;
+
+                imgs[i].style = `
+                        width: ${scaledWidth}px;
+                        height: ${scaledHeight}px;
+                        max-height: unset;
+                        max-width: unset;
+                        `;
+            }
+        }
+
+        const headerContent = el.querySelector('.header-content');
+        if (headerContent.style.display === 'none') {
+            el.style.boxShadow = 'none';
+            el.style.overflow = 'unset';
+        } else {
+            el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
+            el.style.overflow = 'hidden auto';
         }
     };
 
@@ -1436,7 +1605,6 @@ function waitFor(selectors) {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                align-items: center;
                 width: 100%;
                 height: 100%;
             `;
@@ -1486,7 +1654,7 @@ function waitFor(selectors) {
         }
         initialText.innerHTML = '';
         initialText.appendChild(gridContainer);
-    }
+    };
 
     const updateLayout = () => {        
         let imgWidth = parseInt(document.getElementById('width').value);
@@ -1527,55 +1695,14 @@ function waitFor(selectors) {
             useSettings.textContent = 'ReUse';
             useSettings.insertBefore(useSettingsI, useSettings.firstChild);
 
-
-            let naturalWidth = imgWidth;
-            const imgs = el.querySelectorAll('img');
-            imgs.forEach((el) => {
-                naturalWidth = el.naturalWidth !== naturalWidth ? el.naturalWidth : naturalWidth;
-            });
-            updatePreview(el, naturalWidth);
+            const taskDimensions = el.querySelector('.taskDimensions');
+            let imgDimensions = {
+                width: parseInt(taskDimensions.textContent.split('x')[0]),
+                height: parseInt(taskDimensions.textContent.split('x')[1])
+            };
+            updatePreview(el, imgDimensions);
         });
     }
-
-    const updatePreview = (el, naturalWidth) => {
-        const landscape = window.innerWidth > 960 ? true : false;
-        const imgPreview = el.querySelectorAll('.img-preview');
-        const imgs = el.querySelectorAll('img');
-        const imgCount = imgs.length > 0 ? imgs.length : 1;
-        const thumbnailSize = document.getElementById('thumbnail_size-input').value;
-        let scaledWidth = naturalWidth * thumbnailSize / 100;
-        const padding = scaledWidth * 0.2 * imgCount;
-        let totalWidth = scaledWidth * imgCount + padding;
-        const availableHeight = landscape ? document.body.clientHeight - topNav.clientHeight : document.body.clientHeight - topNav.clientHeight - editor.clientHeight;
-        const availableWidth = landscape ? document.body.clientWidth - editor.clientWidth : document.body.clientWidth;
-        const newWidth = totalWidth > availableWidth ? availableWidth : totalWidth;
-        
-        // console.log(`totalWidth: ${totalWidth}, imgLength: ${imgCount}, naturalWidth: ${naturalWidth}`);
-
-        preview.style = `
-            height: ${availableHeight}px !important;
-            width: ${availableWidth}px !important;
-        `;
-
-        initialText.style = `
-            height: ${availableHeight}px !important;
-            width: ${availableWidth}px !important;
-        `;
-        
-        el.style = `
-                display: inline-block;
-                float: left;
-                text-align: left;
-                width: ${newWidth}px !important;
-                margin: 10px;
-                `;
-
-        imgPreview.style = `
-                text-align: center;
-                `;
-
-        hideDetails(el);
-    };
 
     let isEditorOpen = true; // default
     const snapThreshold = 520; // default
@@ -1593,7 +1720,9 @@ function waitFor(selectors) {
             editor.style.display = 'block';
             toggleBtn.textContent = '◀️';
             isEditorOpen = true;
-            editor.appendChild(dreamBtn);
+            // insert before render buttons
+            editorInputs.insertBefore(dreamBtn, renderButtons);
+            // editor.appendChild(dreamBtn);
         }
         updateLayout();
     };
@@ -1610,7 +1739,8 @@ function waitFor(selectors) {
     const note = editorInputs.nextElementSibling;
     note.parentNode.removeChild(note);
 
-    const observer = new MutationObserver(function (mutations) {
+    // start observers
+    const dreamObserver = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             if (mutation.type == "childList") {
                 const numOutputsTotal = document.getElementById('num_outputs_total');
@@ -1632,14 +1762,30 @@ function waitFor(selectors) {
             updateLayout();
         });
     });
-    observer.observe(dreamBtn, { childList: true });
-    window.addEventListener('resize', updateLayout);
+    dreamObserver.observe(dreamBtn, { childList: true });
+
+    const initImagePreviewContainer = document.getElementById('init_image_preview_container');
+    const initImagePreviewContainerObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(() => {
+            initImagePreviewContainer.style = 'display: flex !important;';
+        });
+    });
+    initImagePreviewContainerObserver.observe(initImagePreviewContainer, { childList: true, subtree: true });
+
     const previewContentObserver = new MutationObserver(function (mutations) {
         mutations.forEach(() => {
-            updateLayout();
+            const previewPrompt = document.querySelector('.preview-prompt');
+            previewPrompt.classList.add('concat');
+            previewPrompt.addEventListener('click', () => {
+                previewPrompt.classList.toggle('concat');
+            });
+
             const imgPreview = document.querySelectorAll('.img-preview');
+            
             imgPreview.forEach((el) => {
-                // listen for added children and sub children
+                const imageTaskContainer = el.parentNode.parentNode
+                const progressBar = imageTaskContainer.querySelector('.progress-bar');
+
                 const imgPreviewObserver = new MutationObserver(function (mutations) {
                     mutations.forEach((mutation) => {
                         // if add img to .img-batch update layout
@@ -1648,12 +1794,45 @@ function waitFor(selectors) {
                             const img = mutation.target.querySelector('img');
                             img.addEventListener('load', () => {
                                 updateLayout();
+                                if (progressBar.style.height === '0px') {
+                                    toggleDetails(imageTaskContainer, false);
+                                }
+                            });
+                            const imgShowDetailsBtn = document.createElement('button');
+                            imgShowDetailsBtn.id = 'img-show-details-btn';
+                            imgShowDetailsBtn.className = 'tasksBtns';
+                            imgShowDetailsBtn.textContent = '📝 Details';
+                            imgShowDetailsBtn.style = `
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    margin: 5px;
+                                    visibility: hidden;
+                                    `;
+                            imgShowDetailsBtn.addEventListener('click', () => {
+                                if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
+                                    toggleDetails(imageTaskContainer, true);
+                                } else {
+                                    toggleDetails(imageTaskContainer, false);
+                                }
+                            });
+                            const imgContainer = el.querySelector('.imgContainer');
+                            if (imgContainer) {
+                                imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
+                            }
+                            // show details on hover over img
+                            el.addEventListener('mouseover', () => {
+                                imgShowDetailsBtn.style.visibility = 'visible';
+                            });
+                            el.addEventListener('mouseout', () => {
+                                imgShowDetailsBtn.style.visibility = 'hidden';
                             });
                         }
                     });
                 });
                 imgPreviewObserver.observe(el, { childList: true, subtree: true });
             });
+            updateLayout();
         });
     });
     previewContentObserver.observe(previewContent, { childList: true });
@@ -1662,17 +1841,6 @@ function waitFor(selectors) {
     thumbnailSizeInput.addEventListener('change', () => {
         updateLayout();
     });
-
-    // listen for mouse move on .editor-controls-center
-    const editorControlsCenter = document.querySelectorAll('.editor-controls-center');
-    editorControlsCenter.forEach((el) => {
-            el.addEventListener('mousemove', () => {
-            const editorControlsCenterDiv = el.querySelector('div');
-            const editorCanvasOverlay = document.querySelectorAll('.editor-canvas-overlay');
-            editorCanvasOverlay.forEach((el) => {
-                el.style = `cursor: ${editorControlsCenterDiv.style.cursor};`;
-            });
-        });
-    });
+    window.addEventListener('resize', updateLayout);
     updateLayout();
 })();

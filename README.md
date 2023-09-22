@@ -10,15 +10,12 @@ Easy Dream Studio (EDS) is a transformative plugin for the Easy Diffusion (ED) a
 ## Features
 
 - Replicates the UI of Dream Studio
-- Editor can snap closed
-- Editor menus pop out (landscape mode)
+- Snap close editor
+- Fullscreen Mode (hide Editor and Top Nav)
+- Editor controls scroll and collapse
 - Splitter resizes Editor and Preview (landscape mode)
-- Preview is responsive
-- Show Details button to toggle img details
-- Preview img details hidden by default unless rendering
-- Hiding details reduces clutter around imgs and displayed in natural size
-- Fullscreen Mode (hides Editor and Top Nav)
-- Responsive
+- Show/Hide Details (hidden by default)
+- Responsive Design
 
 ## Installation
 
