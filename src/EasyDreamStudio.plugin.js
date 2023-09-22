@@ -565,6 +565,14 @@ function waitFor(selectors) {
             margin-bottom: 10px;
         }
 
+        #strict_mask_border_setting {
+            margin-top: 5px;
+        }
+
+        #strict_mask_border_setting .input-toggle {
+            height: min-content;            
+        }
+
         #editor-inputs-tags-container {
             background: var(--background-color4);
             border: 1px solid var(--background-color3);
@@ -647,7 +655,7 @@ function waitFor(selectors) {
             color: var(--small-label-color);
         }
 
-        .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile {
+        .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile, .taskStrictMaskBorder {
             color: var(--status-orange);
         }
 
@@ -656,6 +664,7 @@ function waitFor(selectors) {
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 12pt;
+            scroll-snap-align: start;
         }
 
         .preview-prompt::-webkit-scrollbar {
@@ -1254,14 +1263,23 @@ function waitFor(selectors) {
     editorInputsInitImage.replaceChild(initTitle, editorInputsInitImageLabel);
     const imgPreview = editorInputsInitImage.querySelector('.image_preview_container');
     const colorCorrect = editorInputsInitImage.querySelector('#apply_color_correction_setting');
+    colorCorrect.classList.add('help-btn');
+    const colorCorrectSmall = colorCorrect.querySelector('small');
+    colorCorrectSmall.className = 'simple-tooltip bottom';
+    const strictMaskBorderSetting = editorInputsInitImage.querySelector('#strict_mask_border_setting');
+    strictMaskBorderSetting.classList.add('help-btn');
+    const strictMaskBorderSettingSmall = strictMaskBorderSetting.querySelector('small');
+    strictMaskBorderSettingSmall.className = 'simple-tooltip bottom';
     imgPreview.style = 'display: none !important;';
     initTitle.addEventListener('click', () => {
         if (imgPreview.style.display === 'flex') {
             imgPreview.style = 'display: none !important;';
             colorCorrect.style = 'display: none !important;';
+            strictMaskBorderSetting.style = 'display: none !important;';
         } else {
             imgPreview.style = 'display: flex !important;';
             colorCorrect.style = 'display: flex !important;';
+            strictMaskBorderSetting.style = 'display: flex !important;';
         }
     });
 
@@ -1584,7 +1602,7 @@ function waitFor(selectors) {
             el.appendChild(octagon);
         } else if (octagon && imgCount === 0) {
             octagon.style.top = `${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px`;
-            if (maxHeight < 275) {
+            if (maxHeight < 310) {
                 octagon.style.top = `calc(65% - (100% / 9 / 2))`;
             }
         }
