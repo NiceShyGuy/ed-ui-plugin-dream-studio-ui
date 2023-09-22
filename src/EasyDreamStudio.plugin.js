@@ -644,11 +644,7 @@ function waitFor(selectors) {
             flex-direction: row;
             flex-wrap: wrap;
             font-size: 9pt;
-        }
-
-        .taskConfigData b {
-            color: var(--accent-color);
-            filter: brightness(175%);
+            color: var(--small-label-color);
         }
 
         .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile {
@@ -683,6 +679,7 @@ function waitFor(selectors) {
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 9pt;
+            color: var(--small-label-color);
         }
 
         .progress-bar {
