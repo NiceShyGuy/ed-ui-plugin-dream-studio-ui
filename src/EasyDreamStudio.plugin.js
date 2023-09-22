@@ -326,7 +326,7 @@ function waitFor(selectors) {
         }
 
         #preview, #tab-content-settings, #tab-content-about, #tab-content-merge, #tab-content-news {
-            overflow-y: scroll;
+            overflow: scroll;
         }
 
         #preview {
@@ -558,6 +558,7 @@ function waitFor(selectors) {
 
         #preview-tools {
             width: 100%;
+            height: min-content;
         }
 
         #editor-inputs-init-image {
@@ -594,6 +595,9 @@ function waitFor(selectors) {
             grid-template-rows: repeat(4, min-content);
             padding: 5pt;
             height: min-content;
+            width: 100%;
+            scroll-snap-align: start;
+            z-index: 1;
         }
 
         .drag-handle {
@@ -621,8 +625,34 @@ function waitFor(selectors) {
             white-space: nowrap;
         }
 
+        .task-fs-initimage {
+            left: 0;
+            width: 100%;
+            scroll-snap-align: start;
+        }
+
+        .task-fs-initimage img {
+            width: 100%;
+        }
+
+        .task-fs-initimage top-right {
+            right: 12px;
+        }
+
         .taskConfigData {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
             font-size: 9pt;
+        }
+
+        .taskConfigData b {
+            color: var(--accent-color);
+            filter: brightness(175%);
+        }
+
+        .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile {
+            color: var(--status-orange);
         }
 
         .preview-prompt {
@@ -1499,6 +1529,7 @@ function waitFor(selectors) {
         const landscape = window.innerWidth > 960 ? true : false;
         const availableHeight = landscape ? document.body.clientHeight - topNav.clientHeight : document.body.clientHeight - topNav.clientHeight - editor.clientHeight;
         const availableWidth = landscape ? document.body.clientWidth - editor.clientWidth : document.body.clientWidth;
+        const headerContent = el.querySelector('.header-content');
         const collapsibleContent = el.querySelector('.collapsible-content');
         const imgPreview = el.querySelector('.img-preview');
         const imgs = imgPreview.querySelectorAll('img');
@@ -1509,9 +1540,9 @@ function waitFor(selectors) {
         const scaledHeight = imgDimensions.height * thumbnailSize / 100;
         const imgFit = Math.floor(availableWidth / (scaledWidth + (10 * (imgCount - 1))));
         let maxWidth = imgCount > 1 ? scaledWidth * imgCount + (10 * (imgCount - 1)) : scaledWidth;
-        maxWidth = imgCount > imgFit ? scaledWidth * imgFit + (10 * (imgFit - 1)) : maxWidth;
+        maxWidth = imgCount > imgFit && imgCount > 1 ? scaledWidth * imgFit + (10 * (imgFit - 1)) : maxWidth;
         const maxHeight = imgCount > imgFit ? scaledHeight * Math.ceil(imgCount / imgFit) + (10 * (Math.ceil(imgCount / imgFit) - 1)) : scaledHeight;
-        
+
         preview.style = `
             height: ${availableHeight}px !important;
             width: ${availableWidth}px !important;
@@ -1523,13 +1554,14 @@ function waitFor(selectors) {
         `;
         
         el.style = `
+                position: relative;
                 display: inline-flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 float: left;
                 text-align: left;
-                height: min-content;
                 border: none;
+                background: var(--background-color4);
                 border-radius: 0;
                 width: ${maxWidth}px;
                 height: ${maxHeight}px;
@@ -1538,7 +1570,32 @@ function waitFor(selectors) {
                 scroll-snap-type: y;
                 `;
 
+        let octagon = el.querySelector('#octagon');
+        if (!octagon && imgCount === 0) {
+            octagon = document.createElement('div');
+            octagon.id = 'octagon';
+            octagon.style = `
+                    position: absolute;
+                    width: calc(100% / 9);
+                    height: calc(100% / 9);
+                    top: ${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px;
+                    left: calc(50% - (100% / 9 / 2));
+                    background: conic-gradient(from -90deg, red, orange, yellow, green, blue, indigo, violet, red);
+                    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+                    opacity: 0.5;
+                    animation: spin 12s linear infinite;
+                    z-index: 0;
+                `;
+            el.appendChild(octagon);
+        } else if (octagon && imgCount === 0) {
+            octagon.style.top = `${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px`;
+            if (maxHeight < 300) {
+                octagon.style.top = `calc(65% - (100% / 9 / 2))`;
+            }
+        }
+
         if (imgCount > 0) {
+            octagon.style.display = 'none';
             collapsibleContent.style = `
                     width: ${maxWidth}px;
                     height: ${maxHeight}px;
@@ -1576,8 +1633,6 @@ function waitFor(selectors) {
                         `;
             }
         }
-
-        const headerContent = el.querySelector('.header-content');
         if (headerContent.style.display === 'none') {
             el.style.boxShadow = 'none';
             el.style.overflow = 'unset';
@@ -1628,7 +1683,7 @@ function waitFor(selectors) {
                     border: 2px solid;
                     border-color: red;
                     border-image: linear-gradient(to bottom right, red, orange, yellow, green, blue, indigo, violet) 1;
-                    background: var(--background-color3);
+                    background: var(--background-color4);
                     display: flex;
                     align-items: center;
                     justify-content: center;
