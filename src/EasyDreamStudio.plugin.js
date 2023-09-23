@@ -250,8 +250,9 @@ function waitFor(selectors) {
             margin: 0 8px 0 0;
         }
 
-        #makeImage, #editor-settings {
-            margin: 10px 0;
+        #makeImage {
+            max-height: 30pt;
+            min-width: 100%;
         }
 
         #gfpgan_model {
@@ -371,7 +372,7 @@ function waitFor(selectors) {
             display: flex;
             justify-content:center;
             align-items: center;
-            margin: 5px 0 10px 0 ;
+            margin-bottom: 10px;
         }
 
         .editor {
@@ -413,6 +414,10 @@ function waitFor(selectors) {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        #editor-settings {
+            margin: 0;
         }
 
         #editor-settings-entries table td {
@@ -538,10 +543,6 @@ function waitFor(selectors) {
             padding-bottom: 20px;
         }
 
-        #makeImage {
-            max-width: none;
-        }
-
         #modifiers-header-right {
             justify-content: right;
         }
@@ -561,8 +562,21 @@ function waitFor(selectors) {
             height: min-content;
         }
 
+        #editor-inputs {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #editor-inputs-prompt {
+            width: 100%;
+            padding: 0 !important;
+        }
+
         #editor-inputs-init-image {
-            margin-bottom: 10px;
+            margin: 0;
         }
 
         #strict_mask_border_setting {
@@ -579,6 +593,7 @@ function waitFor(selectors) {
             border-radius: 7px;
             padding: 7px;
             box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px 0px, rgba(0, 0, 0, 0.15) 0px 6px 20px 0px;
+            margin: 0;
         }
 
         #editor-inputs-tags-list {
@@ -749,10 +764,6 @@ function waitFor(selectors) {
                 overflow-x: hidden;
             }
 
-            #editor-elements-btn {
-                margin: 0 0 15px 0;
-            }
-
             #editor-modifiers.active {
                 width: 100%;
             }
@@ -778,10 +789,6 @@ function waitFor(selectors) {
             .modifier-category h5 {
                 text-align: left;
                 width: 100%;
-            }
-        
-            #editor-settings {
-                margin: 10px 10px 0 10px;
             }
 
             #editor-settings-entries {
@@ -812,22 +819,6 @@ function waitFor(selectors) {
             #editor-settings-entries > div > table {
                 grid-row: 2;
                 grid-column: 1 / span 2;
-            }
-
-            #editor-inputs-prompt{
-                padding: 0 10px;
-            }
-
-            #editor-inputs-init-image {
-                margin: 0 10px 0 10px;
-            }
-
-            #editor-inputs-tags-container {
-                margin: 10px 10px 0 10px;
-            }
-
-            #makeImage {
-                margin: 10px;
             }
 
             .splitter {
@@ -1602,7 +1593,7 @@ function waitFor(selectors) {
             el.appendChild(octagon);
         } else if (octagon && imgCount === 0) {
             octagon.style.top = `${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px`;
-            if (maxHeight < 310) {
+            if (headerContent.clientHeight >= el.clientHeight - octagon.clientHeight) {
                 octagon.style.top = `calc(65% - (100% / 9 / 2))`;
             }
         }
@@ -1783,7 +1774,7 @@ function waitFor(selectors) {
             editor.style.display = 'none';
             toggleBtn.textContent = '▶️';
             isEditorOpen = false;+
-            previewTools.appendChild(dreamBtn);
+            previewTools.insertAdjacentElement('afterend', dreamBtn);
         } else {
             editor.style.display = 'block';
             toggleBtn.textContent = '◀️';
