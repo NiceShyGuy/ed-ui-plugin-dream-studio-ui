@@ -1,6 +1,6 @@
 /*
  * Easy Dream Studio
- * Version 0.3.5
+ * Version 0.4
  * Author: @3V1LXD
  * License: MIT
  * Description:  
@@ -1311,7 +1311,7 @@ function waitFor(selectors) {
             editorStgs.style.display = 'block';
             editorInputsPrompt.style.display = 'block';
             editorInputsInitImage.style.display = 'block';
-            editorInputsTagsContainer.style.display = 'block';
+            if (activeTags.length > 0) editorInputsTagsContainer.style.display = 'block';
             editor.style.height = 'min-content !important';
             isEditorOpen = true;
         }
