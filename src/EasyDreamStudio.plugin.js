@@ -1842,7 +1842,7 @@ function waitFor(selectors) {
                     }
                 });
             });
-            outputMsgObserver.observe(outputMsg, { childList: true });
+            if (outputMsg) outputMsgObserver.observe(outputMsg, { childList: true });
 
             const previewPrompt = document.querySelector('.preview-prompt');
             previewPrompt.classList.add('concat');
