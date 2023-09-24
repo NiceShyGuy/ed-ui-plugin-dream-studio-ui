@@ -675,7 +675,7 @@ function waitFor(selectors) {
         }
 
         .preview-prompt {
-            grid-row: 5;
+            grid-row: 4;
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 12pt;
@@ -693,21 +693,22 @@ function waitFor(selectors) {
         }
 
         .taskConfig {
-            grid-row: 4;
+            grid-row: 3;
             grid-column: 1 / span 4;
             margin: 0;
         }
 
         .outputMsg {
-            grid-row: 3;
+            grid-row: 5;
             grid-column: 1 / span 4;
-            margin: 0;
+            margin: 0 0 0 3px;
             font-size: 9pt;
             color: var(--small-label-color);
+            z-index: 1;
         }
 
         .progress-bar {
-            grid-row: 6;
+            grid-row: 5;
             grid-column: 1 / span 4;
         }
 
@@ -1844,6 +1845,17 @@ function waitFor(selectors) {
             const outputMsgObserver = new MutationObserver(function (mutations) {
                 mutations.forEach((mutation) => {
                     if (mutation.type == "childList") {
+                        // rephrase output message
+                        if (mutation.target.innerHTML.includes('Batch')) {
+                            // remove 'Batch ' from output message
+                            mutation.target.innerHTML = mutation.target.innerHTML.replace('Batch ', '');
+                            // replace ' of '
+                            mutation.target.innerHTML = mutation.target.innerHTML.replace(' of ', ' / ');
+                            // replace '. Generating image(s):'
+                            mutation.target.innerHTML = mutation.target.innerHTML.replace('. Generating image(s):', ': ');
+                            // replace '. Time remaining (approx):'
+                            mutation.target.innerHTML = mutation.target.innerHTML.replace('. Time remaining (approx):', ' - ');
+                        }
                         updateLayout();
                     }
                 });
