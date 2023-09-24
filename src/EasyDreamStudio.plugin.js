@@ -958,7 +958,7 @@ function waitFor(selectors) {
     logo.appendChild(logoWrapper);
 
     const dreamVersion = document.createElement('small');
-    dreamVersion.textContent = 'v0.3.5';
+    dreamVersion.textContent = 'v0.4';
     dreamVersion.style = 'margin-left: 40px;';
     dreamVersion.classList.add('dream-gradient');
     const vWrapper = document.createElement('span');
