@@ -675,7 +675,7 @@ function waitFor(selectors) {
         }
 
         .preview-prompt {
-            grid-row: 6;
+            grid-row: 5;
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 12pt;
@@ -693,13 +693,13 @@ function waitFor(selectors) {
         }
 
         .taskConfig {
-            grid-row: 5;
+            grid-row: 4;
             grid-column: 1 / span 4;
             margin: 0;
         }
 
         .outputMsg {
-            grid-row: 4;
+            grid-row: 3;
             grid-column: 1 / span 4;
             margin: 0;
             font-size: 9pt;
@@ -707,7 +707,7 @@ function waitFor(selectors) {
         }
 
         .progress-bar {
-            grid-row: 3;
+            grid-row: 6;
             grid-column: 1 / span 4;
         }
 
@@ -1848,6 +1848,7 @@ function waitFor(selectors) {
             previewPrompt.classList.add('concat');
             previewPrompt.addEventListener('click', () => {
                 previewPrompt.classList.toggle('concat');
+                updateLayout();
             });
 
             const imgPreview = document.querySelector('.img-preview');
@@ -1859,10 +1860,10 @@ function waitFor(selectors) {
                     if (mutation.target.classList.contains('img-batch')) {
                         const img = mutation.target.querySelector('img');
                         img.addEventListener('load', () => {
-                            updateLayout();
                             if (progressBar.style.height === '0px') {
                                 toggleDetails(imageTaskContainer, false);
                             }
+                            updateLayout();
                         });
 
                         const imgShowDetailsBtn = document.createElement('button');
@@ -1879,6 +1880,7 @@ function waitFor(selectors) {
                         imgShowDetailsBtn.addEventListener('click', () => {
                             if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
                                 toggleDetails(imageTaskContainer, true);
+                                imageTaskContainer.scrollTop = 0;
                             } else {
                                 toggleDetails(imageTaskContainer, false);
                             }
@@ -1887,10 +1889,10 @@ function waitFor(selectors) {
                         if (imgContainer) {
                             imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
                         }
-                        imgPreview.addEventListener('mouseover', () => {
+                        imgContainer.addEventListener('mouseover', () => {
                             imgShowDetailsBtn.style.visibility = 'visible';
                         });
-                        imgPreview.addEventListener('mouseout', () => {
+                        imgContainer.addEventListener('mouseout', () => {
                             imgShowDetailsBtn.style.visibility = 'hidden';
                         });
                     }
