@@ -1871,7 +1871,7 @@ function waitFor(selectors) {
                                 toggleDetails(imageTaskContainer, false);
                             } else {
                                 imageTaskContainer.scrollTop = headerContent.clientHeight - previewPrompt.clientHeight - progressBar.clientHeight;
-                             }
+                            }
                             updateLayout();
                         });
 
