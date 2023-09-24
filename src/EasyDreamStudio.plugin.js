@@ -1833,69 +1833,74 @@ function waitFor(selectors) {
 
     const previewContentObserver = new MutationObserver(function (mutations) {
         mutations.forEach(() => {
+            const outputMsg = document.querySelector('.outputMsg');
+            // detect changes in innerHTML
+            const outputMsgObserver = new MutationObserver(function (mutations) {
+                mutations.forEach((mutation) => {
+                    if (mutation.type == "childList") {
+                        updateLayout();
+                    }
+                });
+            });
+            outputMsgObserver.observe(outputMsg, { childList: true });
+
             const previewPrompt = document.querySelector('.preview-prompt');
             previewPrompt.classList.add('concat');
             previewPrompt.addEventListener('click', () => {
                 previewPrompt.classList.toggle('concat');
             });
 
-            const imgPreview = document.querySelectorAll('.img-preview');
-            
-            imgPreview.forEach((el) => {
-                const imageTaskContainer = el.parentNode.parentNode
-                const progressBar = imageTaskContainer.querySelector('.progress-bar');
+            const imgPreview = document.querySelector('.img-preview');
+            const imageTaskContainer = imgPreview.parentNode.parentNode;
+            const progressBar = imageTaskContainer.querySelector('.progress-bar');
 
-                const imgPreviewObserver = new MutationObserver(function (mutations) {
-                    mutations.forEach((mutation) => {
-                        // if add img to .img-batch update layout
-                        if (mutation.target.classList.contains('img-batch')) {
-                            // wait for img to load
-                            const img = mutation.target.querySelector('img');
-                            img.addEventListener('load', () => {
-                                updateLayout();
-                                if (progressBar.style.height === '0px') {
-                                    toggleDetails(imageTaskContainer, false);
-                                }
-                            });
-                            const imgShowDetailsBtn = document.createElement('button');
-                            imgShowDetailsBtn.id = 'img-show-details-btn';
-                            imgShowDetailsBtn.className = 'tasksBtns';
-                            imgShowDetailsBtn.textContent = '📝 Details';
-                            imgShowDetailsBtn.style = `
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    margin: 5px;
-                                    visibility: hidden;
-                                    `;
-                            imgShowDetailsBtn.addEventListener('click', () => {
-                                if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
-                                    toggleDetails(imageTaskContainer, true);
-                                } else {
-                                    toggleDetails(imageTaskContainer, false);
-                                }
-                            });
-                            const imgContainer = el.querySelector('.imgContainer');
-                            if (imgContainer) {
-                                imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
+            const imgPreviewObserver = new MutationObserver(function (mutations) {
+                mutations.forEach((mutation) => {
+                    if (mutation.target.classList.contains('img-batch')) {
+                        const img = mutation.target.querySelector('img');
+                        img.addEventListener('load', () => {
+                            updateLayout();
+                            if (progressBar.style.height === '0px') {
+                                toggleDetails(imageTaskContainer, false);
                             }
-                            // show details on hover over img
-                            el.addEventListener('mouseover', () => {
-                                imgShowDetailsBtn.style.visibility = 'visible';
-                            });
-                            el.addEventListener('mouseout', () => {
-                                imgShowDetailsBtn.style.visibility = 'hidden';
-                            });
+                        });
+
+                        const imgShowDetailsBtn = document.createElement('button');
+                        imgShowDetailsBtn.id = 'img-show-details-btn';
+                        imgShowDetailsBtn.className = 'tasksBtns';
+                        imgShowDetailsBtn.textContent = '📝 Details';
+                        imgShowDetailsBtn.style = `
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                margin: 5px;
+                                visibility: hidden;
+                                `;
+                        imgShowDetailsBtn.addEventListener('click', () => {
+                            if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
+                                toggleDetails(imageTaskContainer, true);
+                            } else {
+                                toggleDetails(imageTaskContainer, false);
+                            }
+                        });
+                        const imgContainer = imgPreview.querySelector('.imgContainer');
+                        if (imgContainer) {
+                            imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
                         }
-                    });
+                        imgPreview.addEventListener('mouseover', () => {
+                            imgShowDetailsBtn.style.visibility = 'visible';
+                        });
+                        imgPreview.addEventListener('mouseout', () => {
+                            imgShowDetailsBtn.style.visibility = 'hidden';
+                        });
+                    }
                 });
-                imgPreviewObserver.observe(el, { childList: true, subtree: true });
             });
+            imgPreviewObserver.observe(imgPreview, { childList: true, subtree: true });
             updateLayout();
         });
     });
     previewContentObserver.observe(previewContent, { childList: true });
-    // listen for changes in .thumbnail_size-input value and update layout
     const thumbnailSizeInput = document.getElementById('thumbnail_size-input');
     thumbnailSizeInput.addEventListener('change', () => {
         updateLayout();
