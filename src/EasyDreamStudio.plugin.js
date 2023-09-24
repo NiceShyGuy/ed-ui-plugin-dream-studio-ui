@@ -1170,6 +1170,7 @@ function waitFor(selectors) {
     fileButtonI.className = 'icon smallButton';
     fileButtonI.textContent = '📄';
     fileButton.textContent = 'File';
+    fileButton.className = 'taskBtns';
     fileButton.insertBefore(fileButtonI, fileButton.firstChild);
     promptWrapper.appendChild(promptLabel);
     smallTag.innerText = '';
@@ -1181,6 +1182,7 @@ function waitFor(selectors) {
     promptFromFile.insertAdjacentElement('beforebegin', promptWrapper);
     const imageModBtn = editorInputsPrompt.querySelector('#image-modifier-dropdown');
     imageModBtn.textContent = '🌈 Styles';
+    imageModBtn.className = 'taskBtns';
     const editorInputsTagsContainer = document.querySelector('#editor-inputs-tags-container');
     const editorInputsTagsHeader = document.createElement('div');
     editorInputsTagsHeader.style = `display: flex; align-items: center; justify-content: space-between;`;
@@ -1221,6 +1223,7 @@ function waitFor(selectors) {
     });
     const embeddingBtn = editorInputsPrompt.querySelector('#embeddings-button');
     embeddingBtn.textContent = '🪡 Embeds';
+    embeddingBtn.className = 'taskBtns';
     const emeddingDialog = document.getElementById('embeddings-dialog');
     const emeddingDialogH4 = emeddingDialog.querySelector('h4');
     emeddingDialogH4.textContent = '🪡 Embeddings';
@@ -1516,15 +1519,17 @@ function waitFor(selectors) {
         const progress = el.querySelector('.progress-bar');
         if (progress.style.height === '0px') {
             const headerContent = el.querySelector('.header-content');
-            const imgItem = el.querySelector('.imgItem');
+            // const imgItem = el.querySelector('.imgItem');
             if (showDetails) {
                 headerContent.style.display = 'grid';
                 el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
                 el.style.overflow = 'hidden auto';
+                el.style.background = 'var(--background-color4)';
             } else {
                 headerContent.style.display = 'none';
                 el.style.boxShadow = 'none';
                 el.style.overflow = 'unset';
+                el.style.background = 'none';
             }
         }
     };
@@ -1565,7 +1570,6 @@ function waitFor(selectors) {
                 float: left;
                 text-align: left;
                 border: none;
-                background: var(--background-color4);
                 border-radius: 0;
                 width: ${maxWidth}px;
                 height: ${maxHeight}px;
@@ -1640,9 +1644,11 @@ function waitFor(selectors) {
         if (headerContent.style.display === 'none') {
             el.style.boxShadow = 'none';
             el.style.overflow = 'unset';
+            el.style.background = 'none';
         } else {
             el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
             el.style.overflow = 'hidden auto';
+            el.style.background = 'var(--background-color4)';
         }
     };
 
@@ -1853,6 +1859,7 @@ function waitFor(selectors) {
 
             const imgPreview = document.querySelector('.img-preview');
             const imageTaskContainer = imgPreview.parentNode.parentNode;
+            const headerContent = imageTaskContainer.querySelector('.header-content');
             const progressBar = imageTaskContainer.querySelector('.progress-bar');
 
             const imgPreviewObserver = new MutationObserver(function (mutations) {
@@ -1862,7 +1869,9 @@ function waitFor(selectors) {
                         img.addEventListener('load', () => {
                             if (progressBar.style.height === '0px') {
                                 toggleDetails(imageTaskContainer, false);
-                            }
+                            } else {
+                                imageTaskContainer.scrollTop = headerContent.clientHeight - previewPrompt.clientHeight - progressBar.clientHeight;
+                             }
                             updateLayout();
                         });
 
