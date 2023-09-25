@@ -701,7 +701,7 @@ function waitFor(selectors) {
         .outputMsg {
             grid-row: 5;
             grid-column: 1 / span 4;
-            margin: 0 0 0 3px;
+            margin: 1px 0 0 6px;
             font-size: 9pt;
             color: var(--small-label-color);
             z-index: 1;
@@ -1270,11 +1270,9 @@ function waitFor(selectors) {
         if (imgPreview.style.display === 'flex') {
             imgPreview.style = 'display: none !important;';
             colorCorrect.style = 'display: none !important;';
-            strictMaskBorderSetting.style = 'display: none !important;';
         } else {
             imgPreview.style = 'display: flex !important;';
             colorCorrect.style = 'display: flex !important;';
-            strictMaskBorderSetting.style = 'display: flex !important;';
         }
     });
 
@@ -1359,7 +1357,7 @@ function waitFor(selectors) {
         const imgDetailsBtn = document.getElementById('img-details-btn');
         const showDetails = imgDetailsBtn.textContent.includes('Show');
         imageTaskContainer.forEach((el) => {
-            toggleDetails(el, showDetails);
+            toggleDetails(el);
             if (showDetails) {
                 imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Show', 'Hide');                
             } else {
@@ -1516,11 +1514,11 @@ function waitFor(selectors) {
     document.body.appendChild(dialog);
     dialog.showModal();
 
-    const toggleDetails = (el, showDetails = false) => {
+    const toggleDetails = (el) => {
         const progress = el.querySelector('.progress-bar');
         if (progress.style.height === '0px') {
             const headerContent = el.querySelector('.header-content');
-            // const imgItem = el.querySelector('.imgItem');
+            const showDetails = headerContent.style.display === 'none' ? true : false;
             if (showDetails) {
                 headerContent.style.display = 'grid';
                 el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
@@ -1580,6 +1578,7 @@ function waitFor(selectors) {
                 `;
 
         let octagon = el.querySelector('#octagon');
+        const octTop = headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2);
         if (!octagon && imgCount === 0) {
             octagon = document.createElement('div');
             octagon.id = 'octagon';
@@ -1587,7 +1586,6 @@ function waitFor(selectors) {
                     position: absolute;
                     width: calc(100% / 9);
                     height: calc(100% / 9);
-                    top: ${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px;
                     left: calc(50% - (100% / 9 / 2));
                     background: conic-gradient(from -90deg, red, orange, yellow, green, blue, indigo, violet, red);
                     clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
@@ -1596,8 +1594,12 @@ function waitFor(selectors) {
                     z-index: 0;
                 `;
             el.appendChild(octagon);
+            octagon.style.top = `${octTop}px`;
+            if (headerContent.clientHeight >= el.clientHeight - octagon.clientHeight) {
+                octagon.style.top = `calc(65% - (100% / 9 / 2))`;
+            }
         } else if (octagon && imgCount === 0) {
-            octagon.style.top = `${headerContent.clientHeight + ((el.clientHeight - headerContent.clientHeight) / 2) - (el.clientHeight / 9 / 2)}px`;
+            octagon.style.top = `${octTop}px`;
             if (headerContent.clientHeight >= el.clientHeight - octagon.clientHeight) {
                 octagon.style.top = `calc(65% - (100% / 9 / 2))`;
             }
@@ -1863,11 +1865,13 @@ function waitFor(selectors) {
             if (outputMsg) outputMsgObserver.observe(outputMsg, { childList: true });
 
             const previewPrompt = document.querySelector('.preview-prompt');
-            previewPrompt.classList.add('concat');
-            previewPrompt.addEventListener('click', () => {
-                previewPrompt.classList.toggle('concat');
-                updateLayout();
-            });
+            if (previewPrompt) {
+                previewPrompt.classList.add('concat');
+                previewPrompt.addEventListener('click', () => {
+                    previewPrompt.classList.toggle('concat');
+                    updateLayout();
+                });
+            }
 
             const imgPreview = document.querySelector('.img-preview');
             const imageTaskContainer = imgPreview.parentNode.parentNode;
@@ -1880,7 +1884,7 @@ function waitFor(selectors) {
                         const img = mutation.target.querySelector('img');
                         img.addEventListener('load', () => {
                             if (progressBar.style.height === '0px') {
-                                toggleDetails(imageTaskContainer, false);
+                                toggleDetails(imageTaskContainer);
                             } else {
                                 imageTaskContainer.scrollTop = headerContent.clientHeight - previewPrompt.clientHeight - progressBar.clientHeight;
                             }
@@ -1899,11 +1903,9 @@ function waitFor(selectors) {
                                 visibility: hidden;
                                 `;
                         imgShowDetailsBtn.addEventListener('click', () => {
+                            toggleDetails(imageTaskContainer);
                             if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
-                                toggleDetails(imageTaskContainer, true);
                                 imageTaskContainer.scrollTop = 0;
-                            } else {
-                                toggleDetails(imageTaskContainer, false);
                             }
                         });
                         const imgContainer = imgPreview.querySelector('.imgContainer');
