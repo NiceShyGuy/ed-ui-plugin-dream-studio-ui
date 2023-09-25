@@ -1875,53 +1875,55 @@ function waitFor(selectors) {
 
             const imgPreview = document.querySelector('.img-preview');
             const imageTaskContainer = imgPreview.parentNode.parentNode;
-            const headerContent = imageTaskContainer.querySelector('.header-content');
-            const progressBar = imageTaskContainer.querySelector('.progress-bar');
+            if (imageTaskContainer) {
+                const headerContent = imageTaskContainer.querySelector('.header-content');
+                const progressBar = imageTaskContainer.querySelector('.progress-bar');
 
-            const imgPreviewObserver = new MutationObserver(function (mutations) {
-                mutations.forEach((mutation) => {
-                    if (mutation.target.classList.contains('img-batch')) {
-                        const img = mutation.target.querySelector('img');
-                        img.addEventListener('load', () => {
-                            if (progressBar.style.height === '0px') {
+                const imgPreviewObserver = new MutationObserver(function (mutations) {
+                    mutations.forEach((mutation) => {
+                        if (mutation.target.classList.contains('img-batch')) {
+                            const img = mutation.target.querySelector('img');
+                            img.addEventListener('load', () => {
+                                if (progressBar.style.height === '0px') {
+                                    toggleDetails(imageTaskContainer);
+                                } else {
+                                    imageTaskContainer.scrollTop = headerContent.clientHeight - previewPrompt.clientHeight - progressBar.clientHeight;
+                                }
+                                updateLayout();
+                            });
+
+                            const imgShowDetailsBtn = document.createElement('button');
+                            imgShowDetailsBtn.id = 'img-show-details-btn';
+                            imgShowDetailsBtn.className = 'tasksBtns';
+                            imgShowDetailsBtn.textContent = '📝 Details';
+                            imgShowDetailsBtn.style = `
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    margin: 5px;
+                                    visibility: hidden;
+                                    `;
+                            imgShowDetailsBtn.addEventListener('click', () => {
                                 toggleDetails(imageTaskContainer);
-                            } else {
-                                imageTaskContainer.scrollTop = headerContent.clientHeight - previewPrompt.clientHeight - progressBar.clientHeight;
+                                if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
+                                    imageTaskContainer.scrollTop = 0;
+                                }
+                            });
+                            const imgContainer = imgPreview.querySelector('.imgContainer');
+                            if (imgContainer) {
+                                imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
                             }
-                            updateLayout();
-                        });
-
-                        const imgShowDetailsBtn = document.createElement('button');
-                        imgShowDetailsBtn.id = 'img-show-details-btn';
-                        imgShowDetailsBtn.className = 'tasksBtns';
-                        imgShowDetailsBtn.textContent = '📝 Details';
-                        imgShowDetailsBtn.style = `
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                margin: 5px;
-                                visibility: hidden;
-                                `;
-                        imgShowDetailsBtn.addEventListener('click', () => {
-                            toggleDetails(imageTaskContainer);
-                            if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
-                                imageTaskContainer.scrollTop = 0;
-                            }
-                        });
-                        const imgContainer = imgPreview.querySelector('.imgContainer');
-                        if (imgContainer) {
-                            imgContainer.insertBefore(imgShowDetailsBtn, imgContainer.firstChild);
+                            imgContainer.addEventListener('mouseover', () => {
+                                imgShowDetailsBtn.style.visibility = 'visible';
+                            });
+                            imgContainer.addEventListener('mouseout', () => {
+                                imgShowDetailsBtn.style.visibility = 'hidden';
+                            });
                         }
-                        imgContainer.addEventListener('mouseover', () => {
-                            imgShowDetailsBtn.style.visibility = 'visible';
-                        });
-                        imgContainer.addEventListener('mouseout', () => {
-                            imgShowDetailsBtn.style.visibility = 'hidden';
-                        });
-                    }
+                    });
                 });
-            });
-            imgPreviewObserver.observe(imgPreview, { childList: true, subtree: true });
+                imgPreviewObserver.observe(imgPreview, { childList: true, subtree: true });
+            }
             updateLayout();
         });
     });
