@@ -670,7 +670,7 @@ function waitFor(selectors) {
             color: var(--small-label-color);
         }
 
-        .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile, .taskStrictMaskBorder {
+        .taskSeed, .taskDimensions, .taskSamplerName, .taskNumInferenceSteps, .taskGuidanceScale, .taskUseStableDiffusionModel, .taskUseVaeModel, .taskUseLoraModel, .taskLoraAlpha, .taskPreserveInitImageColorProfile, .taskStrictMaskBorder, .taskPromptStrength {
             color: var(--status-orange);
         }
 
@@ -1353,17 +1353,17 @@ function waitFor(selectors) {
     imgDetailsBtn.style.marginRight = '5px';
     const previewContent = document.getElementById('preview-content');
     imgDetailsBtn.addEventListener('click', () => {
-        const imageTaskContainer = previewContent.querySelectorAll('.imageTaskContainer');
-        const imgDetailsBtn = document.getElementById('img-details-btn');
+        const imageTaskContainer = previewContent.getElementsByClassName('imageTaskContainer');
         const showDetails = imgDetailsBtn.textContent.includes('Show');
-        imageTaskContainer.forEach((el) => {
-            toggleDetails(el);
-            if (showDetails) {
-                imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Show', 'Hide');                
-            } else {
-                imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Hide', 'Show');                
-            }
-        });
+        for (let i = 0; i < imageTaskContainer.length; i++) {
+            toggleDetails(imageTaskContainer[i], showDetails);
+            imageTaskContainer[i].scrollTop = 0;
+        }
+        if (showDetails) {
+            imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Show', 'Hide');                
+        } else {
+            imgDetailsBtn.textContent = imgDetailsBtn.textContent.replace('Hide', 'Show');                
+        }
     });
 
     const imgDetailsBtnI = document.createElement('i');
@@ -1514,11 +1514,11 @@ function waitFor(selectors) {
     document.body.appendChild(dialog);
     dialog.showModal();
 
-    const toggleDetails = (el) => {
+    const toggleDetails = (el, showDetails = null) => {
         const progress = el.querySelector('.progress-bar');
         if (progress.style.height === '0px') {
             const headerContent = el.querySelector('.header-content');
-            const showDetails = headerContent.style.display === 'none' ? true : false;
+            if (showDetails === null) showDetails = headerContent.style.display === 'none' ? true : false;
             if (showDetails) {
                 headerContent.style.display = 'grid';
                 el.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, .4), 0 6px 20px 0 rgba(0, 0, 0, .4)';
@@ -1874,8 +1874,8 @@ function waitFor(selectors) {
             }
 
             const imgPreview = document.querySelector('.img-preview');
-            const imageTaskContainer = imgPreview.parentNode.parentNode;
-            if (imageTaskContainer) {
+            if (imgPreview) {
+                const imageTaskContainer = imgPreview.parentNode.parentNode;
                 const headerContent = imageTaskContainer.querySelector('.header-content');
                 const progressBar = imageTaskContainer.querySelector('.progress-bar');
 
@@ -1905,7 +1905,7 @@ function waitFor(selectors) {
                                     `;
                             imgShowDetailsBtn.addEventListener('click', () => {
                                 toggleDetails(imageTaskContainer);
-                                if (imageTaskContainer.querySelector('.header-content').style.display === 'none') {
+                                if (headerContent.style.display !== 'none') {
                                     imageTaskContainer.scrollTop = 0;
                                 }
                             });
