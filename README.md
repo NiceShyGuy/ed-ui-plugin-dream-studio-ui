@@ -1,4 +1,4 @@
-# Easy Dream Studio for Easy Diffusion
+# Easy Dream Studio for Easy Diffusion (Discontinued)
 
 ![Screenshot](src/assets/Screenshot.jpg)
 ![Screenshot](src/assets/Screenshot2.jpg)
